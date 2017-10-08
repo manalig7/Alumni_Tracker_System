@@ -1,0 +1,7 @@
+
+
+<ul>
+	{% for alumni in alumni_list %}
+		<li><a href="{% url 'alumni_tracker:details' alumni.roll_no %}">{{alumni.alumni_name}}</a></li>
+	{% endfor %}
+</ul>

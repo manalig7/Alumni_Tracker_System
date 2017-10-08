@@ -1,0 +1,64 @@
+	
+	{% load staticfiles %}
+	<head>
+		<title>Alumni Tracker</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="{% static 'alumni_tracker/main.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'alumni_tracker/font-awesome.min.css' %}">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	</head>
+	</head>
+	<body>
+
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<h4><a href="{% url 'alumni_tracker:home' %}">Alumni Tracker</a></h4>
+				</div>
+			</div>
+		</nav>
+
+		<!-- Banner -->
+			<section id="banner">
+				<div class="inner">
+					<header>
+						<h1>Welcome to the Alumni Tracker App</h1>
+					</header>
+
+					<div class="flex ">
+
+						<div>
+							<span class="icon fa-car"></span>
+							<h3><a href="{% url 'alumni_tracker:login'%}">Login</a></h3>
+							<p>Already registered? You're good to go!</p>
+						</div>
+
+						<div>
+							<span class="icon fa-camera"></span>
+							<h3><a href="{% url 'alumni_tracker:registration'%}">Register</a></h3>
+							<p>New user? Please register before you can add your details!</p>
+						</div>
+
+						<div>
+							<span class="icon fa-bug"></span>
+							<h3><a href="{% url 'alumni_tracker:search'%}">Search</a></h3>
+							<p>No need to login or register! Simply type and search!</p>
+						</div>
+
+					</div>
+
+					
+				</div>
+			</section>
+			
+
+		
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>

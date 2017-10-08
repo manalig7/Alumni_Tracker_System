@@ -1,12 +1,30 @@
 
 
 from django.http import HttpResponse
-from django.template import loader
+from django.shortcuts import render
 from .models import Location, Alumnus, School, Department, Company, Studied, Job, Alumnus_majors, Alumnus_links
+from django.views import generic
+from django.views.generic.edit import CreateView, UpdateView, DeleteView   #to create,edit a new object
+
+class DetailView(generic.DetailView):
+	model = Alumnus
+	template_name = 'alumni_tracker/details.html'
+	context_object_name = 'alumnus'
+
+class IndexView(generic.ListView):
+	template_name = 'alumni_tracker/display.html'
+	context_object_name = 'alumni_list'
+	
+	def get_queryset(self):
+		return Alumnus.objects.all()
+
+class AlumnusCreate(CreateView):
+	model = Alumnus
+	fields = ['alumni_name','roll_no','present_city','email_id','dept_code','grad_year','cgpa']
 
 def home(request):
-	html = '<a href="/alumni_tracker/login/">Login</a><br> <a href="/alumni_tracker/registration/">Registration</a><br> <a href="/alumni_tracker/search/">Search</a><br>'
-	return HttpResponse(html)
+	context = {}
+	return render(request, 'alumni_tracker/home.html',context)
 
 def registration(request):
     return HttpResponse("Hello, world. You're at the registration page")
@@ -16,13 +34,6 @@ def login(request):
 
 def search(request):
 	all_alumni = Alumnus.objects.all()
-	html = ''
-	for alumnus in all_alumni:
-		url = '/alumni_tracker/search/' + alumnus.roll_no + '/'
-		html += '<a href="' + url + '">' + alumnus.alumni_name + '</a><br>'
-	return HttpResponse(html)
-
-def details(request,alumnus_id):
-    return HttpResponse("Hello, world. You're at the details page for alumnus" + alumnus_id)
-
+	context = {}
+	return render(request, 'alumni_tracker/search.html',context)
 
