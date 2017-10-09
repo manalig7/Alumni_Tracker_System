@@ -1,0 +1,13 @@
+<body>
+	<center>
+<h1>Creation of alumnus entry in the Alumni Tracker System</h1>	
+{% for field in form %}
+	<div>
+		<span>{{ field.errors }}</span>
+	</div>
+	<label>{{ field.label_tag }}</label>
+	<div>{{ field }}</div>
+
+{% endfor %}
+</center>
+</body>
