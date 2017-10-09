@@ -11,12 +11,19 @@ class Location(models.Model):
 	def __str__(self):
 		return self.city
 
+class Department(models.Model):
+	dept_code = models.CharField(max_length=7,primary_key=True)
+	dept_name = models.CharField(max_length=50)
+
+	def __str__(self):
+		return self.dept_code
+
 class Alumnus(models.Model):
 	alumni_name = models.CharField(max_length=100)
 	roll_no = models.CharField(max_length=7,primary_key=True)
 	present_city = models.ForeignKey(Location,on_delete=models.SET_NULL,null=True)
 	email_id = models.CharField(max_length=20,null=True)
-	dept_code = models.CharField(max_length=7)
+	dept_code = models.ForeignKey(Department,on_delete=models.SET_NULL,null=True)
 	grad_year = models.IntegerField()
 	cgpa = models.IntegerField()
 
@@ -33,13 +40,6 @@ class School(models.Model):
 	def __str__(self):
 		return self.school_name
 	
-class Department(models.Model):
-	dept_code = models.CharField(max_length=7,primary_key=True)
-	dept_name = models.CharField(max_length=50)
-
-	def __str__(self):
-		return self.dept_name
-
 class Company(models.Model):
 	company_id = models.CharField(max_length=7,primary_key=True)
 	name = models.CharField(max_length=20)
