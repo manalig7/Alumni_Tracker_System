@@ -2913,11 +2913,13 @@
 				color: inherit;
 			}
 
+			
+
 /* Banner */
 
 	#banner {
 		padding: 8em 0 9em 0;
-		background-image: url(/images/banner.jpg);
+		background-image: url("http://www.nitk.ac.in/sites/default/files/public/gallery-images/01_0.jpg");
 		background-size: cover;
 		background-position: bottom;
 		background-attachment: fixed;

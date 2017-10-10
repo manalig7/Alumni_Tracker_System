@@ -1,7 +1,43 @@
-<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+
+
+{% load staticfiles %}
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>New Entry into Alumni Database</title>
+  	
+  
+  
+      <link rel="stylesheet" href="{% static 'alumni_tracker/alumnus.css' %}">
+
+  
+</head>
+
+<body>
+	
+  <div id="login-box">
+  	<div class="top">
+  	</div>
+  <div class="left">
+    <h1>New Entry into the Alumni Database</h1>
+    
+    <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
 	{% csrf_token %}
 	{% include 'alumni_tracker/form-template.html' %}
+	<br>
 	<div>
 		<button type="submit" class="btn btn-success">Submit</button>
 	</div>
 </form>	
+  </div>
+  
+  <div class="right">
+    
+  </div>
+  
+</div>
+  
+  
+</body>
+</html>
