@@ -7,7 +7,7 @@ body {
   
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
-  background-image: url("http://www.luthernoles.org/wp-content/uploads/2014/11/Alumni.jpg");
+  background-image: url("images/createalumnusbackground.jpg");
   background-size: cover;
 
   
@@ -28,7 +28,7 @@ body {
 .top {
   width: 800px;
   height: 200px;
-  background-image: url("https://media.licdn.com/media/AAEAAQAAAAAAAAY3AAAAJDExYzQ1MmM4LTQ1NjctNGY3MS1hYmIyLTdlNGM4ODA3YTcwNg.png");
+  background-image: url("images/createalumnustop.png");
   background-size: cover;
 }
 
@@ -114,7 +114,10 @@ input[type="submit"]:active {
   text-align: center;
 }
 
-
+#alumnus_name
+{
+  color: #000;
+}
 
 
 

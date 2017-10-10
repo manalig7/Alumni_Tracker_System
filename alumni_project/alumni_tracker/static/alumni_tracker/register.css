@@ -7,7 +7,7 @@ body {
   
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
-  background-image: url("https://fi.ge.pgstatic.net/articles/processed/1427865231.d7918bddd82a42528c8832940f04d843.jpg");
+  background-image: url("images/nitk_beach.jpg");
   background-size: cover;
   
 }
@@ -17,7 +17,7 @@ body {
   margin: 5% auto;
   width: 700px;
   height: 400px;
-  background: #FFF;
+  background: #FFFC;
   border-radius: 2px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
@@ -110,7 +110,7 @@ input[type="submit"]:active {
   padding: 40px;
   width: 400px;
   height: 400px;
-  background: url('http://edunews.successcds.net/wp-content/uploads/2014/04/NITK-Emblem.png');
+  background: url('images/nitk_logo.png');
   background-size: cover;
   background-position: center;
   border-radius: 0 2px 2px 0;

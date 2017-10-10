@@ -1,7 +1,42 @@
 
+ 
+
+
+{% load staticfiles %}
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Display</title>
+  	
+  
+  
+      <link rel="stylesheet" href="{% static 'alumni_tracker/alumnus.css' %}">
+
+  
+</head>
+
+<body>
+	
+  <div id="login-box">
+  	<div class="top">
+  	</div>
+  <div class="left">
+  	<div  id="alumni_list">
+    <h1>Display Results</h1>
 
 <ul>
 	{% for alumni in alumni_list %}
-		<li><a href="{% url 'alumni_tracker:details' alumni.roll_no %}">{{alumni.alumni_name}}</a></li>
+		<li><a  id="alumnus_name" href="{% url 'alumni_tracker:details' alumni.roll_no %}">{{alumni.alumni_name}}</a></li>
 	{% endfor %}
 </ul>
+    
+   </div>
+  </div>
+  
+  
+</div>
+  
+  
+</body>
+</html>

@@ -1655,7 +1655,7 @@
 	}
 
 	h1, h2, h3, h4, h5, h6 {
-		color: #555;
+		color: #c9c6c6;
 		font-weight: 400;
 		line-height: 1.5;
 		margin: 0 0 1em 0;
@@ -2919,7 +2919,7 @@
 
 	#banner {
 		padding: 8em 0 9em 0;
-		background-image: url("http://www.nitk.ac.in/sites/default/files/public/gallery-images/01_0.jpg");
+		background-image: url("images/homebackground.jpg");
 		background-size: cover;
 		background-position: bottom;
 		background-attachment: fixed;
