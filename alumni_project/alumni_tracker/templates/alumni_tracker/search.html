@@ -36,6 +36,9 @@
                      <form role="search" method="get" action="{% url 'alumni_tracker:display' %}">
                 <div class="form-group">
                     Name : <input type="text" class="form-control" name="name" value="{{ request.GET.name }}">
+                    Graduation : <input type="text" class="form-control" name="grad_year" value="{{ request.GET.grad_year }}">
+                    Present City : <input type="text" class="form-control" name="present_city" value="{{ request.GET.present_city }}">
+                    Department Code : <input type="text" class="form-control" name="dept_code" value="{{ request.GET.dept_code }}">
                 </div>
                 <button type="submit" class="btn btn-default">Search</button>
             </form>

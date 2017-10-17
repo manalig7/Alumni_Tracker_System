@@ -24,6 +24,7 @@ class IndexView(generic.ListView):
 		#alumni = Alumnus.objects.filter(user=self.user)
 		alumni_results = Alumnus.objects.all()
 		query = self.GET.get("name")
+		query1=self.GET.get("present_city")
 		if query:
 			alumni = alumni.filter(
 				Q(alumni_name__icontains=query)
@@ -31,18 +32,44 @@ class IndexView(generic.ListView):
 			alumni_results = alumni_results.filter(
 				Q(alumni_name__icontains=query)
 			).distinct()
-			return render(self, 'alumni_tracker/display.html', {'alumni': alumni})
-		else:
-			return render(self, 'alumni_tracker/display.html', {'alumni_list': alumni})
+		if query1:
+				alumni_results = alumni_results.filter(
+				Q(present_city__icontains=query1)
+			).distinct()
+		return render(self, 'alumni_tracker/display.html', {'alumni': alumni})
+		#else:
+		#return render(self, 'alumni_tracker/display.html', {'alumni_list': alumni})
 		#return Alumnus.objects.all()
 
 def display(request):
 	alumni_results = Alumnus.objects.all()
 	query = request.GET.get("name")
+	query1= request.GET.get("grad_year")
+	query2= request.GET.get("present_city")
+	query3= request.GET.get("dept_code")
+	flag=1
 	if query:
 		alumni_results = alumni_results.filter(
-			Q(alumni_name__icontains=query)
+			Q(alumni_name__icontains=query) 
 		).distinct()
+	if query1:
+		alumni_results = alumni_results.filter(
+		Q(grad_year__exact=query1) 
+	).distinct()
+	if query2:
+		alumni_results = alumni_results.filter(
+		Q(present_city__city__icontains=query2) 
+	).distinct()
+	if query3:
+		alumni_results = alumni_results.filter(
+		Q(dept_code__dept_code__icontains=query3) 
+	).distinct()
+	#if query1:
+	#	alumni_results = alumni_results.filter(
+	#		Q(present_city__icontains=query1)
+	#	).distinct()
+	#	flag=1
+	if flag==1:
 		return render(request, 'alumni_tracker/display.html', {'alumni_list': alumni_results})
 	else:
 		return render(request, 'alumni_tracker/display.html', {'alumni_list': alumni_results})
