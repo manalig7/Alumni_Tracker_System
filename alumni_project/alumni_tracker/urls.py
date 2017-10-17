@@ -12,4 +12,6 @@ urlpatterns = [
     url(r'^search/display/$', views.display, name='display'),
     url(r'^search/display/(?P<pk>[0-9]+[A-Z]+[0-9]+)/$', views.DetailView.as_view(), name='details'),
     url(r'^createalumnus/$',views.AlumnusCreate.as_view(),name='createalumnus'),
+    url(r'^updatealumnus/(?P<pk>[0-9]+[A-Z]+[0-9]+)/$',views.AlumnusUpdate.as_view(),name='updatealumnus'),
+    url(r'^deletealumnus/(?P<pk>[0-9]+[A-Z]+[0-9]+)/$',views.AlumnusDelete.as_view(),name='deletealumnus'),
 ]

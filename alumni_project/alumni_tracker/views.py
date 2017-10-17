@@ -5,6 +5,7 @@ from django.shortcuts import render,redirect
 from .models import Location, Alumnus, School, Department, Company, Studied, Job, Alumnus_majors, Alumnus_links
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView   #to create,edit a new object
+from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth import authenticate, login    
 from django.views.generic import View
 from .forms import UserForm
@@ -50,6 +51,14 @@ def display(request):
 class AlumnusCreate(CreateView):
 	model = Alumnus
 	fields = ['alumni_name','roll_no','present_city','email_id','dept_code','grad_year','cgpa']
+
+class AlumnusUpdate(UpdateView):
+	model = Alumnus
+	fields = ['alumni_name','roll_no','present_city','email_id','dept_code','grad_year','cgpa']
+
+class AlumnusDelete(DeleteView):
+	model = Alumnus
+	success_url=reverse_lazy('alumni_tracker:home')
 
 def home(request):
 	context = {}
