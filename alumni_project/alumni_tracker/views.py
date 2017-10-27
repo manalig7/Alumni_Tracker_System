@@ -79,7 +79,6 @@ def display(request):
 		#return Alumnus.objects.all()
 
 def display_self_profile(request):
-
 	name =  request.GET.get("name")
 	grad_year =  request.GET.get("grad_year")
 	cgpa =  request.GET.get("cgpa")
@@ -90,6 +89,7 @@ def display_self_profile(request):
 	roll_no =  request.GET.get("roll_no")
 	company_name = request.GET.get("company_name")
 	company_city = request.GET.get("company_city")
+	company_country = request.GET.get("company_country")
 	school_city = request.GET.get("school_city")
 	school_country = request.GET.get("school_country")
 	school_name =  request.GET.get("school_name")
@@ -101,44 +101,43 @@ def display_self_profile(request):
 	linkedin = request.GET.get("linkedin")
 	major1 = request.GET.get("major1")
 	major2 = request.GET.get("major2")
-
 	try:
 		if Alumnus.objects.get(pk=roll_no):
 			return HttpResponse("Roll no exists")
 	except ObjectDoesNotExist:
 		try:
-			p=Location.objects.only('city').get(city=city)
+			p=Location.objects.only('city').get(city=city,country=present_country)
 		except ObjectDoesNotExist:
-			c=Location.objects.create(city=city,country=present_country)
-			p=Location.objects.only('city').get(city=city)
+			c=Location.objects.create(city=city,country=present_country)#Creates the present location if it is not already present
+			p=Location.objects.only('city').get(city=city,country=present_country)
 		#q = Alumnus(alumni_name=name, roll_no=roll_no, present_city=Location.objects.get(pk=city).city, email_id=email_id, grad_year=grad_year, cgpa=cgpa)
 		#q.save()
+		#Creates the city in which the school is located if it is not already present
 		try:
-			p1=Location.objects.only('city').get(city=school_city)
+			p1=Location.objects.only('city').get(city=school_city,country=school_country)
 		except ObjectDoesNotExist:
-			c1=Location.objects.create(city=city,country=school_country)
-			p1=Location.objects.only('city').get(city=school_city)
+			c1=Location.objects.create(city=school_city,country=school_country)
+			p1=Location.objects.only('city').get(city=school_city,country=school_country)
+		#Creates the city in which the company is located if it is not already present
 		try:
-			p2=Location.objects.only('city').get(city=company_city)
+			p2=Location.objects.only('city').get(city=company_city,country=company_country)
 		except ObjectDoesNotExist:
-			c2=Location.objects.create(city=city,country=company_country)	
-			p2=Location.objects.only('city').get(city=company_city)
+			c2=Location.objects.create(city=company_city,country=company_country)	
+			p2=Location.objects.only('city').get(city=company_city,country=company_country)
+		#Checks if the unique company+city entry is already present
 		try:
 			p3=Company.objects.only('name').get(name=company_name,city=company_city)
 		except ObjectDoesNotExist:
-			c3=Company.objects.create(name=company_name,city=company_city)
+			c3=Company.objects.create(name=company_name,city=p2)
 		try:
-			p4=School.objects.only('school_name').get(school_name=school_name)
+			p4=School.objects.only('school_name').get(school_name=school_name,city=school_city)
 		except ObjectDoesNotExist:
-			c4=School.objects.create(school_name=school_name,city=school_city)
-
-		studied = Studied.objects.create(school_name=School.objects.only('school_name').get(school_name=school_name),roll_no=Alumnus.objects.only('roll_no').get(roll_no=roll_no), programme=school_programme, grad_year=school_grad)			
-		job = Job.objects.create(roll_no=Alumnus.objects.only('roll_no').get(roll_no=roll_no), company_id=Company.objects.only('company_id').get(name=company_name),field=job_field, position=job_position)
-		
+			c4=School.objects.create(school_name=school_name,city=p1)
+		q=Alumnus.objects.create(alumni_name=name, roll_no=roll_no, present_city=p, email_id=email_id, grad_year=grad_year, cgpa=cgpa ,dept_code= Department.objects.only('dept_code').get(dept_code=dept_code),linkedin=linkedin,github=github)
+		studied = Studied.objects.create(roll_no=Alumnus.objects.only('roll_no').get(roll_no=roll_no), school_name=School.objects.only('school_name').get(school_name=school_name),programme=school_programme, grad_year=school_grad)			
+		job = Job.objects.create(roll_no=Alumnus.objects.only('roll_no').get(roll_no=roll_no), company_id=Company.objects.only('id').get(name=company_name,city=company_city),field=job_field, position=job_position)
 		major = Alumnus_majors.objects.create(roll_no=Alumnus.objects.only('roll_no').get(roll_no=roll_no), major=major1)
 		major = Alumnus_majors.objects.create(roll_no=Alumnus.objects.only('roll_no').get(roll_no=roll_no), major=major2)
-		
-		q=Alumnus.objects.create(alumni_name=name, roll_no=roll_no, present_city=p, email_id=email_id, grad_year=grad_year, cgpa=cgpa ,dept_code= Department.objects.only('dept_code').get(dept_code=dept_code),linkedin=linkedin,github=github)
 		alumni = Alumnus.objects.get(pk=q.roll_no)
 		print Alumnus.objects.only('email_id')
 		context = {"alumnus" : alumni}

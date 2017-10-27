@@ -59,7 +59,7 @@ class Studied(models.Model):
 		unique_together = ('roll_no', 'school_name',)
 
 	def __str__(self):
-		return self.school_name
+		return self.programme+' '+str(self.grad_year)
 
 class Job(models.Model) :
 	roll_no = models.ForeignKey(Alumnus,on_delete=models.CASCADE)
@@ -71,7 +71,7 @@ class Job(models.Model) :
 		unique_together = ('roll_no', 'company_id',)
 
 	def __str__(self):
-		return self.company_id
+		return self.field+' '+self.position
 
 class Alumnus_majors(models.Model):
 	roll_no = models.ForeignKey(Alumnus,on_delete=models.CASCADE)
