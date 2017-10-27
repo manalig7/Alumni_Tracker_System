@@ -26,9 +26,11 @@ class Alumnus(models.Model):
 	dept_code = models.ForeignKey(Department,on_delete=models.SET_NULL,null=True)
 	grad_year = models.IntegerField()
 	cgpa = models.IntegerField()
+	github = models.CharField(max_length=30)
+	linkedin = models.CharField(max_length=30)
 
 	def get_absolute_url(self):
-		return reverse('alumni_tracker:details',kwargs={'pk': self.pk})
+		return reverse('alumni_tracker:search',kwargs={'pk': self.pk})
 
 	def __str__(self):
 		return self.alumni_name + ' ' + self.roll_no
@@ -41,7 +43,6 @@ class School(models.Model):
 		return self.school_name
 	
 class Company(models.Model):
-	company_id = models.CharField(max_length=7,primary_key=True)
 	name = models.CharField(max_length=20)
 	city = models.ForeignKey(Location,on_delete=models.SET_NULL,null=True)
 
@@ -81,13 +82,3 @@ class Alumnus_majors(models.Model):
 
 	def __str__(self):
 		return self.major
-
-class Alumnus_links(models.Model):
-	roll_no = models.ForeignKey(Alumnus,on_delete=models.CASCADE)
-	link = models.CharField(max_length=30)
-
-	class Meta:
-		unique_together = ('roll_no','link',)
-
-	def __str__(self):
-		return self.link
