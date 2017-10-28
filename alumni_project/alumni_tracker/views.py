@@ -18,6 +18,17 @@ class DetailView(generic.DetailView):
 	template_name = 'alumni_tracker/details.html'
 	context_object_name = 'alumnus'
 
+def details(request,pk):
+	alumnus = Alumnus.objects.get(roll_no=pk)
+	department = Department.objects.get(dept_code=alumnus.dept_code)
+	job = Job.objects.filter(roll_no=pk)
+	school=Studied.objects.filter(roll_no=pk)
+	majors=Alumnus_majors.objects.filter(roll_no=pk)
+	#for jobs in job:
+	#	company = Company.objects.filter(id=jobs.company_id)
+	context = {'alumnus':alumnus,'department':department,'job':job,'school':school,'majors':majors}
+	return render(request,'alumni_tracker/details.html',context)
+
 class IndexView(generic.ListView):
 	template_name = 'alumni_tracker/display.html'
 	context_object_name = 'alumni_list'
@@ -103,7 +114,8 @@ def display_self_profile(request):
 	major2 = request.GET.get("major2")
 	try:
 		if Alumnus.objects.get(pk=roll_no):
-			return HttpResponse("Roll no exists")
+			return redirect('alumni_tracker:errorpage')
+
 	except ObjectDoesNotExist:
 		try:
 			p=Location.objects.only('city').get(city=city,country=present_country)
@@ -133,16 +145,27 @@ def display_self_profile(request):
 			p4=School.objects.only('school_name').get(school_name=school_name,city=school_city)
 		except ObjectDoesNotExist:
 			c4=School.objects.create(school_name=school_name,city=p1)
+
 		q=Alumnus.objects.create(alumni_name=name, roll_no=roll_no, present_city=p, email_id=email_id, grad_year=grad_year, cgpa=cgpa ,dept_code= Department.objects.only('dept_code').get(dept_code=dept_code),linkedin=linkedin,github=github)
 		studied = Studied.objects.create(roll_no=Alumnus.objects.only('roll_no').get(roll_no=roll_no), school_name=School.objects.only('school_name').get(school_name=school_name),programme=school_programme, grad_year=school_grad)			
 		job = Job.objects.create(roll_no=Alumnus.objects.only('roll_no').get(roll_no=roll_no), company_id=Company.objects.only('id').get(name=company_name,city=company_city),field=job_field, position=job_position)
 		major = Alumnus_majors.objects.create(roll_no=Alumnus.objects.only('roll_no').get(roll_no=roll_no), major=major1)
 		major = Alumnus_majors.objects.create(roll_no=Alumnus.objects.only('roll_no').get(roll_no=roll_no), major=major2)
+
+		#Contexts
+		majors = Alumnus_majors.objects.filter(roll_no=roll_no)
 		alumni = Alumnus.objects.get(pk=q.roll_no)
-		print Alumnus.objects.only('email_id')
-		context = {"alumnus" : alumni}
+		jobs = Job.objects.filter(roll_no=roll_no)
+		company = Company.objects.filter(name=company_name)
+
+		#print Alumnus.objects.only('email_id')
+		context = {"alumnus" : alumni, "majors" : majors,"jobs" : jobs , "company" : company}
 		return render(request,'alumni_tracker/display_self_profile.html',context)
-	
+
+def error(request):
+	context = {}
+	return render(request,'alumni_tracker/errorpage.html',context)
+
 def updatealumnus(request,pk):
 
 	def get(self,request):
@@ -245,3 +268,76 @@ def register(request):
 
 		return render(request, self.template_name,{'form':form})
 
+
+def login_user(request):
+	if request.method == "POST":
+		username = request.POST['username']
+		password = request.POST['password']
+		user = authenticate (username = username,password= password)
+		if user is not None:
+			if user.is_active:
+				login(request,user)
+				alumnus = Alumnus.objects.get(roll_no=request.user)
+				department = Department.objects.get(dept_code=alumnus.dept_code)
+				school = Studied.objects.get(roll_no=alumnus.roll_no)
+				company=Job.objects.filter(roll_no=alumnus.roll_no)
+				majors=Alumnus_majors.objects.filter(roll_no=alumnus.roll_no)
+				context = {
+					'alumnus':alumnus,
+					'department':department,
+					'school':school,
+					'company':company,
+					'majors': majors,
+		
+				}
+				return render(request,'alumni_tracker/home.html',context)
+			else:
+				return render(request,'alumni_tracker/login.html',{'error_message':'Your account has been disabled'})
+
+		else:
+			return render(request,'alumni_tracker/login.html',{'error_message':'Invalid login'})
+	return render(request,'alumni_tracker/login.html')
+
+def update_home(request):
+	context={}
+	return render(request,'alumni_tracker/update_home.html',context)
+
+def updateprofile_new(request):
+	form = UpdateProfileForm(request.POST or None)
+	alumnus = Alumnus.objects.get(roll_no = request.user)
+	if form.is_valid() and request.method== "POST":
+		
+		roll_no = request.POST["roll_no"]
+		sem = request.POST["sem"]
+		hostel = request.POST["hostel_block"]
+		hostel_inst = Hostel_block.objects.get(block_no=hostel)
+		branch = request.POST["branch"]
+		mess_names = request.POST["mess_names"]
+		mess_name = Mess.objects.get(mess_name=mess_names)
+		
+		student.sem = sem
+		student.hostel_block = hostel_inst
+		student.branch = branch
+
+		student.mess_names = mess_name
+		student.save()
+		student = Student.objects.get(user=request.user)
+		room = Room.objects.get(room_no = str(student.room_no))
+		hostel = Hostel_block.objects.get(block_no = str(room.block_no))
+
+		mess = Mess.objects.get(mess_name = student.mess_names)
+		
+		context = {
+			'student':student,
+			'room':room,
+			'hostel':hostel,
+			'mess':mess,
+			'roll_no': student.roll_no,
+		
+		}
+		return render(request,'info/index.html',context)
+	else:
+		context = {
+					'form' : form,
+		}
+		return render(request,'info/update_profile.html',context)

@@ -1,44 +1,47 @@
 {% load staticfiles %}
 
 <head>
-		<title>Alumni Tracker</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="{% static 'alumni_tracker/details.css' %}">
-		<link rel="stylesheet" type="text/css" href="{% static 'alumni_tracker/font-awesome.min.css' %}">
-		<!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"-->
-		
-	</head>
+  <title>Alumni Tracker</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="{% static 'alumni_tracker/details.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'alumni_tracker/font-awesome.min.css' %}">
+  <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"-->
+
+</head>
 <body>	
-<div class="container">
-	<div class="row">
-		<div class="col-lg-3 col-sm-6">
+    <div class="container">
+     <div class="row">
+      <div class="col-lg-3 col-sm-6">
 
-            <div class="card hovercard">
-                <div class="cardheader">
-
-                </div>
-                <div class="avatar">
-                    <img src="images/alumnus.png">
-                </div>
-                <div class="info">
-                    <div class="title">
-                        Congrats ! profile created
-                        <h1 target="_blank" href="">{{alumnus.alumni_name}}</h1>
-                    </div>
-                    <div class="desc">{{alumnus.roll_no}}</div>
-                    <div class="desc">{{alumnus.cgpa}}</div>
-                    <div class="desc">{{alumnus.email_id}}</div>
-                    <div class="desc">{{alumnus.present_city}}</div>
-                    <div class="desc">{{alumnus.grad_year}}</div>
-                </div>
-                
-
+        <div class="card hovercard">
+            <div class="cardheader">
 
             </div>
-
+            <div class="avatar">
+                <img src="images/alumnus.png">
+            </div>
+            <div class="info">
+                <div class="title">
+                    Congrats ! profile created
+                    <h1 target="_blank" href="">{{alumnus.alumni_name}}</h1>
+                </div>
+                <div class="desc">{{alumnus.roll_no}}</div>
+                <div class="desc">{{alumnus.cgpa}}</div>
+                <div class="desc">{{alumnus.email_id}}</div>
+                <div class="desc">{{alumnus.present_city}}</div>
+                <div class="desc">{{alumnus.grad_year}}</div>
+                {% for majors in majors %}
+                <li>{{majors.major}}</li>
+                {% endfor %}
+                {% for company in company %}
+                <li>{{company.name}}, {{company.city}}</li>
+                {% endfor %}
+                <div class="desc"><a href="{{alumnus.github}}">{{alumnus.github}}</a></div>
+                <div class="desc"><a href="{{alumnus.linkedin}}">{{alumnus.linkedin}}</a></div>
+            </div>
         </div>
-
-	</div>
+    </div>
+</div>
 </div>
 </body>
