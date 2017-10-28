@@ -308,19 +308,30 @@ def updateprofile_new(request):
 	if form.is_valid() and request.method== "POST":
 		
 		roll_no = request.POST["roll_no"]
+		present_city=request.POST["present_city"]
+		email_id=request.POST["email_id"]
+		github=request.POST["github"]
+		linkedin=request.POST["linkedin"]
 		sem = request.POST["sem"]
+		"""
 		hostel = request.POST["hostel_block"]
 		hostel_inst = Hostel_block.objects.get(block_no=hostel)
 		branch = request.POST["branch"]
 		mess_names = request.POST["mess_names"]
 		mess_name = Mess.objects.get(mess_name=mess_names)
-		
+		"""
+		alumnus.present_city=present_city
+		alumnus.email_id=email_id
+		alumnus.linkedin=linkedin
+		alumnus.github=github
+		"""
 		student.sem = sem
 		student.hostel_block = hostel_inst
 		student.branch = branch
-
 		student.mess_names = mess_name
 		student.save()
+		"""
+		alumnus.save()
 		student = Student.objects.get(user=request.user)
 		room = Room.objects.get(room_no = str(student.room_no))
 		hostel = Hostel_block.objects.get(block_no = str(room.block_no))
