@@ -157,9 +157,11 @@ def display_self_profile(request):
 		alumni = Alumnus.objects.get(pk=q.roll_no)
 		jobs = Job.objects.filter(roll_no=roll_no)
 		company = Company.objects.filter(name=company_name)
+		studied = Studied.object.filter(roll_no=roll_no)
 
+		school = School.objects.filter(school_name=school_name)#[studied.school_name]
 		#print Alumnus.objects.only('email_id')
-		context = {"alumnus" : alumni, "majors" : majors,"jobs" : jobs , "company" : company}
+		context = {"alumnus" : alumni, "majors" : majors,"jobs" : jobs , "company" : company , 'school' : school}
 		return render(request,'alumni_tracker/display_self_profile.html',context)
 
 def error(request):
@@ -280,17 +282,18 @@ def login_user(request):
 				alumnus = Alumnus.objects.get(roll_no=request.user)
 				department = Department.objects.get(dept_code=alumnus.dept_code)
 				school = Studied.objects.get(roll_no=alumnus.roll_no)
+
 				company=Job.objects.filter(roll_no=alumnus.roll_no)
 				majors=Alumnus_majors.objects.filter(roll_no=alumnus.roll_no)
 				context = {
 					'alumnus':alumnus,
-					'department':department,
+					'dept':department,
 					'school':school,
 					'company':company,
 					'majors': majors,
 		
 				}
-				return render(request,'alumni_tracker/home.html',context)
+				return render(request,'alumni_tracker/display_self_profile.html',context)
 			else:
 				return render(request,'alumni_tracker/login.html',{'error_message':'Your account has been disabled'})
 
@@ -332,7 +335,7 @@ def updateprofile_new(request):
 		student.save()
 		"""
 		alumnus.save()
-		student = Student.objects.get(user=request.user)
+		"""student = Student.objects.get(user=request.user)
 		room = Room.objects.get(room_no = str(student.room_no))
 		hostel = Hostel_block.objects.get(block_no = str(room.block_no))
 
@@ -345,8 +348,16 @@ def updateprofile_new(request):
 			'mess':mess,
 			'roll_no': student.roll_no,
 		
-		}
-		return render(request,'info/index.html',context)
+		}"""
+
+		alumnus = Alumnus.objects.get(roll_no=request.user)
+		dept = Department.objects.get(dept_code=alumnus.dept_code)
+		job = Job.objects.filter(roll_no=alumnus.roll_no)
+		studied = Studied.objects.filter(roll_no=alumnus.roll_no)
+		majors = Alumnus_majors.objects.filter(roll_no=alumnus.roll_no)
+
+		context = {'alumnus': alumnus,'dept':dept,'jobs': job ,'studied' : studied,'majors' : majors}
+		return render(request,'alumni_tracker/display_self_profile.html',context)
 	else:
 		context = {
 					'form' : form,

@@ -31,16 +31,26 @@
                 <div class="desc">{{alumnus.email_id}}</div>
                 <div class="desc">{{alumnus.present_city}}</div>
                 <div class="desc">{{alumnus.grad_year}}</div>
+                
                 {% for majors in majors %}
                 <li>{{majors.major}}</li>
                 {% endfor %}
+
+                {% if company %}
                 {% for company in company %}
                 <li>{{company.name}}, {{company.city}}</li>
                 {% endfor %}
+                {% endif %}
+                
+                
+
+
                 <div class="desc"><a href="{{alumnus.github}}">{{alumnus.github}}</a></div>
                 <div class="desc"><a href="{{alumnus.linkedin}}">{{alumnus.linkedin}}</a></div>
             </div>
         </div>
+        <a href="/updatealumnus/">Update Profile</a>
+        Want to update your <a href="update_school">school details</a> and <a href="update_company">company details</a> too? 
     </div>
 </div>
 </div>
