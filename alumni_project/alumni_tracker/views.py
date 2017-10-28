@@ -13,6 +13,7 @@ from django.db.models import Q
 from django.contrib.auth import views as auth_views
 from django.core.exceptions import ObjectDoesNotExist
 
+
 class DetailView(generic.DetailView):
 	model = Alumnus
 	template_name = 'alumni_tracker/details.html'
@@ -90,6 +91,7 @@ def display(request):
 		#return Alumnus.objects.all()
 
 def display_self_profile(request):
+
 	name =  request.GET.get("name")
 	grad_year =  request.GET.get("grad_year")
 	cgpa =  request.GET.get("cgpa")
@@ -157,9 +159,12 @@ def display_self_profile(request):
 		alumni = Alumnus.objects.get(pk=q.roll_no)
 		jobs = Job.objects.filter(roll_no=roll_no)
 		company = Company.objects.filter(name=company_name)
-		studied = Studied.object.filter(roll_no=roll_no)
 
-		school = School.objects.filter(school_name=school_name)#[studied.school_name]
+		studied_list = Studied.objects.all().filter(roll_no=roll_no)
+		ls=[]
+		for obj in studied_list:
+			ls.append(obj.school_name)
+		school = School.objects.filter(school_name__in=ls)
 		#print Alumnus.objects.only('email_id')
 		context = {"alumnus" : alumni, "majors" : majors,"jobs" : jobs , "company" : company , 'school' : school}
 		return render(request,'alumni_tracker/display_self_profile.html',context)

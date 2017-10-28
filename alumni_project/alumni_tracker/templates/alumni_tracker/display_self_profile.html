@@ -36,6 +36,21 @@
                 <li>{{majors.major}}</li>
                 {% endfor %}
 
+                <div> JOBS
+                {% for j in jobs %}
+                <p>
+                Job 1:</p>
+                <li>{{j.field}} , {{j.position}}</li>
+                {% endfor %}
+            </div>
+
+
+                {% if school %}
+                {% for sc in school %}
+                <li>{{sc.school_name}}, {{sc.city}}</li>
+                {% endfor %}
+                {% endif %}
+
                 {% if company %}
                 {% for company in company %}
                 <li>{{company.name}}, {{company.city}}</li>
