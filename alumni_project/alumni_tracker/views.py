@@ -8,7 +8,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView   #to c
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth import authenticate, login    
 from django.views.generic import View
-from .forms import UserForm
+from .forms import UserForm,UpdateProfileForm
 from django.db.models import Q
 from django.contrib.auth import views as auth_views
 from django.core.exceptions import ObjectDoesNotExist
@@ -284,7 +284,36 @@ def login_user(request):
 		if user is not None:
 			if user.is_active:
 				login(request,user)
-				alumnus = Alumnus.objects.get(roll_no=request.user)
+				alumni = Alumnus.objects.get(roll_no=user)
+				roll_no = user
+				majors = Alumnus_majors.objects.filter(roll_no=alumni.roll_no)
+				
+				jobs = Job.objects.filter(roll_no=alumni.roll_no)
+				ls1=[]
+				ls2=[]
+				"""for j in jobs:
+					ls1.append(jobs.company_id)"""
+				studied_list = Studied.objects.all().filter(roll_no=alumni.roll_no)
+				#companylist[]
+				#for i in range(0,len(ls1)):
+				#	company = Company.objects.all().filter(id=ls1[i])
+				ls=[]
+				compid = Job.objects.only('company_id').get(roll_no=alumni.roll_no)
+				company = Company.objects.all().filter(name=compid.company_id.name,city=compid.company_id.city)
+				for obj in studied_list:
+					ls.append(obj.school_name)
+				school = School.objects.filter(school_name__in=ls)
+				#print Alumnus.objects.only('email_id')
+				context = {"alumnus" : alumni, "majors" : majors,"jobs" : jobs , "company" : company , 'school' : school}
+				return render(request,'alumni_tracker/display_self_profile.html',context)
+			else:
+				return render(request,'alumni_tracker/login.html',{'error_message':'Your account has been disabled'})
+		else:
+			return render(request,'alumni_tracker/login.html',{'error_message':'Invalid login'})
+	return render(request,'alumni_tracker/login.html')
+
+
+"""alumnus = Alumnus.objects.get(roll_no=request.user)
 				department = Department.objects.get(dept_code=alumnus.dept_code)
 				school = Studied.objects.get(roll_no=alumnus.roll_no)
 
@@ -296,21 +325,10 @@ def login_user(request):
 					'school':school,
 					'company':company,
 					'majors': majors,
-		
+					
 				}
-				return render(request,'alumni_tracker/display_self_profile.html',context)
-			else:
-				return render(request,'alumni_tracker/login.html',{'error_message':'Your account has been disabled'})
-
-		else:
-			return render(request,'alumni_tracker/login.html',{'error_message':'Invalid login'})
-	return render(request,'alumni_tracker/login.html')
-
-def update_home(request):
-	context={}
-	return render(request,'alumni_tracker/update_home.html',context)
-
-def updateprofile_new(request):
+				return render(request,'alumni_tracker/display_self_profile.html',context)"""
+def updateprofile_new(request,pk):
 	form = UpdateProfileForm(request.POST or None)
 	alumnus = Alumnus.objects.get(roll_no = request.user)
 	if form.is_valid() and request.method== "POST":
@@ -320,41 +338,14 @@ def updateprofile_new(request):
 		email_id=request.POST["email_id"]
 		github=request.POST["github"]
 		linkedin=request.POST["linkedin"]
-		sem = request.POST["sem"]
-		"""
-		hostel = request.POST["hostel_block"]
-		hostel_inst = Hostel_block.objects.get(block_no=hostel)
-		branch = request.POST["branch"]
-		mess_names = request.POST["mess_names"]
-		mess_name = Mess.objects.get(mess_name=mess_names)
-		"""
-		alumnus.present_city=present_city
+		
+		alumnus.present_city = Location.objects.only('city').get(city=present_city)
 		alumnus.email_id=email_id
 		alumnus.linkedin=linkedin
 		alumnus.github=github
-		"""
-		student.sem = sem
-		student.hostel_block = hostel_inst
-		student.branch = branch
-		student.mess_names = mess_name
-		student.save()
-		"""
+		
 		alumnus.save()
-		"""student = Student.objects.get(user=request.user)
-		room = Room.objects.get(room_no = str(student.room_no))
-		hostel = Hostel_block.objects.get(block_no = str(room.block_no))
-
-		mess = Mess.objects.get(mess_name = student.mess_names)
 		
-		context = {
-			'student':student,
-			'room':room,
-			'hostel':hostel,
-			'mess':mess,
-			'roll_no': student.roll_no,
-		
-		}"""
-
 		alumnus = Alumnus.objects.get(roll_no=request.user)
 		dept = Department.objects.get(dept_code=alumnus.dept_code)
 		job = Job.objects.filter(roll_no=alumnus.roll_no)
@@ -366,5 +357,6 @@ def updateprofile_new(request):
 	else:
 		context = {
 					'form' : form,
+					'alumnus':alumnus
 		}
-		return render(request,'info/update_profile.html',context)
+		return render(request,'alumni_tracker/update_profile.html',context)

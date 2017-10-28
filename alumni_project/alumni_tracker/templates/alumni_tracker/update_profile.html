@@ -1,5 +1,4 @@
 
-{% extends 'info/sidebar.html' %}
 
 {% block body %}
 <div class= "container-fluid">
@@ -8,7 +7,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h3> Update Profile</h3>
-	               <form class="form-horizontal" role="form" action="/update_profile/{{roll_no}}" method="post" enctype="multipart/form-data">
+	               <form class="form-horizontal" role="form" action="../../updatealumnus/{{alumnus.roll_no}}/" method="post" enctype="multipart/form-data">
                         {% csrf_token %}                  
                         {% for field in form %}
                             <div class="form-group">
