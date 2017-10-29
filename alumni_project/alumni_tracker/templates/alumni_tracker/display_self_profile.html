@@ -36,21 +36,23 @@
                 <li>{{majors.major}}</li>
                 {% endfor %}
 
-                <div> JOBS
-                {% for j in jobs %}
-                <p>
-                Job 1:</p>
-                <li>{{j.field}} , {{j.position}}</li>
-                {% endfor %}
-            </div>
+                
 
 
                 {% if school %}
                 {% for sc in school %}
                 <li>{{sc.school_name}}, {{sc.city}} </li>
-                {% for %}
                 {% endfor %}
                 {% endif %}
+
+                Schols without div:P
+                <div>Schools</div>
+                {% if studied_list %}
+                {% for st in studied_list %}
+                <li>{{st.programme}}, {{st.grad_year}} </li>
+                {% endfor %}
+                {% endif %}
+                endschool
 
                 {% if company %}
                 {% for company in company %}
@@ -58,7 +60,13 @@
                 {% endfor %}
                 {% endif %}
                 
-                
+                <div> JOBS
+                {% for j in jobs %}
+                <p>
+                </p>
+                <li>{{j.field}} , {{j.position}}</li>
+                {% endfor %}
+            </div>
 
 
                 <div class="desc"><a href="{{alumnus.github}}">{{alumnus.github}}</a></div>

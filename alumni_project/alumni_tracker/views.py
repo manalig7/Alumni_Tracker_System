@@ -160,13 +160,13 @@ def display_self_profile(request):
 		jobs = Job.objects.filter(roll_no=roll_no)
 		company = Company.objects.filter(name=company_name)
 
-		studied_list = Studied.objects.all().filter(roll_no=roll_no)
+		studied_list = Studied.objects.filter(roll_no=roll_no)
 		ls=[]
 		for obj in studied_list:
 			ls.append(obj.school_name)
 		school = School.objects.filter(school_name__in=ls)
 		#print Alumnus.objects.only('email_id')
-		context = {"alumnus" : alumni, "majors" : majors,"jobs" : jobs , "company" : company , 'school' : school, 'studied' : studied}
+		context = {"alumnus" : alumni, "majors" : majors,"jobs" : jobs , "company" : company , 'school' : school, 'studied_list' : studied_list}
 		return render(request,'alumni_tracker/display_self_profile.html',context)
 
 def error(request):
@@ -294,17 +294,25 @@ def login_user(request):
 				"""for j in jobs:
 					ls1.append(jobs.company_id)"""
 				studied_list = Studied.objects.all().filter(roll_no=alumni.roll_no)
-				#companylist[]
-				#for i in range(0,len(ls1)):
-				#	company = Company.objects.all().filter(id=ls1[i])
 				ls=[]
-				compid = Job.objects.only('company_id').get(roll_no=alumni.roll_no)
-				company = Company.objects.all().filter(name=compid.company_id.name,city=compid.company_id.city)
 				for obj in studied_list:
 					ls.append(obj.school_name)
+
+				
 				school = School.objects.filter(school_name__in=ls)
+
+
+				lc=[]
+				compid_list = Job.objects.all().filter(roll_no=alumni.roll_no)
+				for obj in compid_list:
+					lc.append(obj.company_id)
+				lc1=[]
+				for obj in lc:
+					lc1.append(obj.id)
+				company = Company.objects.filter(id__in=lc1)
+
 				#print Alumnus.objects.only('email_id')
-				context = {"alumnus" : alumni, "majors" : majors,"jobs" : jobs , "company" : company , 'school' : school}
+				context = {"alumnus" : alumni, "majors" : majors,"jobs" : jobs , "company" : company , 'school' : school, 'studied_list' : studied_list}
 				return render(request,'alumni_tracker/display_self_profile.html',context)
 			else:
 				return render(request,'alumni_tracker/login.html',{'error_message':'Your account has been disabled'})
