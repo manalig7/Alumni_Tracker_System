@@ -47,7 +47,8 @@
 
                 {% if school %}
                 {% for sc in school %}
-                <li>{{sc.school_name}}, {{sc.city}}</li>
+                <li>{{sc.school_name}}, {{sc.city}} </li>
+                {% for %}
                 {% endfor %}
                 {% endif %}
 
@@ -65,7 +66,9 @@
             </div>
         </div>
         <a href='../updatealumnus/{{alumnus.roll_no}}'>Update Profile</a>
-        Want to update your <a href="../../updateschool/{{alumnus.roll_no}}">school details</a> and <a href="../../updatecompany/{{alumnus.roll_no}}">company details</a> too? 
+        Want to update your <a href="{% url 'alumni_tracker:createschool' alumnus.roll_no %}">school details</a> and <a href="{% url 'alumni_tracker:createcompany' alumnus.roll_no %}">company details</a> too? 
+        <br>
+        <div><a href="{% url 'alumni_tracker:logout' %}">Logout</a></div>
     </div>
 </div>
 </div>

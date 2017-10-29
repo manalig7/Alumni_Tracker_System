@@ -1,0 +1,60 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Alumni Tracker{% endblock %}</title>
+    {% load staticfiles %}
+    <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="{% static 'alumni_tracker/main.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'alumni_tracker/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="{% static 'music/style.css' %}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script-->
+
+    
+</head>
+<body>
+    <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <h4><a href="{% url 'alumni_tracker:home' %}">Alumni Tracker</a></h4>
+                </div>
+            </div>
+        </nav>
+        <section id="banner">
+                <div class="inner">
+                    <header>
+                        <h1>Create your profile here!</h1>
+                    </header>
+                    <h2>Apply the filters to search for the alumni!</h2>
+                    <br>
+
+                     <form role="search" method="get" action="{% url 'alumni_tracker:add_company_success' alumnus.roll_no %}">
+                <div class="form-group">
+                    {% csrf_token %}
+
+
+                    Company Name : <input type="text" class="form-control" name="company_name" value="{{ request.GET.school_name }}">
+                    Companu city : <input type="text" class="form-control" name="company_city" value="{{ request.GET.company_city }}">
+                   Company country : <input type="text" class="form-control" name="company_country" value="{{ request.GET.company_country }}">
+                   Field : <input type="text" class="form-control" name="field" value="{{ request.GET.field }}">
+                    Position : <input type="text" class="form-control" name="position" value="{{ request.GET.posiiton }}">
+                    
+                    
+                </div>
+                <button type="submit" class="btn btn-default">ADD</button>
+            </form>
+                    
+                </div>
+            </section>
+   
+
+
+</body>   
