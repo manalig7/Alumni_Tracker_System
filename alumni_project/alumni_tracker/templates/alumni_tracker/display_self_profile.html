@@ -24,6 +24,8 @@
             <div class="info">
                 <div class="title">
                     Congrats ! profile created
+
+                    Personal Details :
                     <h1 target="_blank" href="">{{alumnus.alumni_name}}</h1>
                 </div>
                 <div class="desc">{{alumnus.roll_no}}</div>
@@ -32,34 +34,36 @@
                 <div class="desc">{{alumnus.present_city}}</div>
                 <div class="desc">{{alumnus.grad_year}}</div>
                 
+                 <br>
+                 <br>Majors <br>
                 {% for majors in majors %}
                 <li>{{majors.major}}</li>
                 {% endfor %}
 
                 
-
+ <br> <br>Schools
 
                 {% if school %}
                 {% for sc in school %}
                 <li>{{sc.school_name}}, {{sc.city}} </li>
                 {% endfor %}
                 {% endif %}
-
-                Schols without div:P
-                <div>Schools</div>
+ <br> <br>
+                Studied <br>
+                
                 {% if studied_list %}
                 {% for st in studied_list %}
                 <li>{{st.programme}}, {{st.grad_year}} </li>
                 {% endfor %}
                 {% endif %}
-                endschool
-
+                
+ <br> <br>Company <br>
                 {% if company %}
                 {% for company in company %}
                 <li>{{company.name}}, {{company.city}}</li>
                 {% endfor %}
                 {% endif %}
-                
+                 <br> <br>
                 <div> JOBS
                 {% for j in jobs %}
                 <p>
@@ -67,12 +71,12 @@
                 <li>{{j.field}} , {{j.position}}</li>
                 {% endfor %}
             </div>
-
+ <br> <br>
 
                 <div class="desc"><a href="{{alumnus.github}}">{{alumnus.github}}</a></div>
                 <div class="desc"><a href="{{alumnus.linkedin}}">{{alumnus.linkedin}}</a></div>
             </div>
-        </div>
+        </div> <br> <br>
         <a href='../updatealumnus/{{alumnus.roll_no}}'>Update Profile</a>
         Want to update your <a href="{% url 'alumni_tracker:createschool' alumnus.roll_no %}">school details</a> and <a href="{% url 'alumni_tracker:createcompany' alumnus.roll_no %}">company details</a> too? 
         <br>

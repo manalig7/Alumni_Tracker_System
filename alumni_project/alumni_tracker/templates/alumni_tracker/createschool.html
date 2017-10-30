@@ -31,16 +31,13 @@
         <section id="banner">
                 <div class="inner">
                     <header>
-                        <h1>Create your profile here!</h1>
-                    </header>
-                    <h2>Apply the filters to search for the alumni!</h2>
-                    <br>
+                        
 
                      <form role="search" method="get" action="{% url 'alumni_tracker:add_schools_success' alumnus.roll_no %}">
                 <div class="form-group">
                     {% csrf_token %}
 
-
+                    Roll no. :<input type="text" class="form-control" name="roll_no" value="{{alumnus.roll_no}}" readonly="readonly">
                     School Name : <input type="text" class="form-control" name="school_name" value="{{ request.GET.school_name }}">
                     School city : <input type="text" class="form-control" name="school_city" value="{{ request.GET.school_city }}">
                     School country : <input type="text" class="form-control" name="school_country" value="{{ request.GET.school_country }}">

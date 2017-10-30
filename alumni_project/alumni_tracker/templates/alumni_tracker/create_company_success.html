@@ -1,4 +1,9 @@
-<div>company added successfully</div>
+<div>company added successfully {{alumnus.roll_no}}</div>
 
-<div><a href="{% url 'alumni_tracker:display_self_profile' %}">Go to profile</a></div>
-<div><a href="{% url 'alumni_tracker:logout' %}">Logout</a></div>
+<form role="search" method="get" action="{% url 'alumni_tracker:display_self_profile' %}">
+                <div class="form-group">
+                    {% csrf_token %}
+Roll no. :<input type="text" class="form-control" name="roll_no" value="{{ alumnus.roll_no }}" readonly="readonly">
+</div>
+                <button type="submit" class="btn btn-default">See profile</button>
+            </form>

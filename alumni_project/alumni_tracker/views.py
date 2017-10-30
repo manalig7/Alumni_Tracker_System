@@ -116,31 +116,90 @@ def display_self_profile(request):
 	major2 = request.GET.get("major2")
 	try:
 		if Alumnus.objects.get(pk=roll_no):
-			return redirect('alumni_tracker:errorpage')
+			if city:
+				return redirect('alumni_tracker:errorpage')
+			else:
+				#p=Location.objects.only('city').get(city=Alumnus.objects.only('present_city').get(roll_no=roll_no))
+				#Creates the city in which the school is located if it is not already present
+				if school_city and school_country and school_name:
+					try:
+						p1=Location.objects.only('city').get(city=school_city,country=school_country)
+					except ObjectDoesNotExist:
+						c1=Location.objects.create(city=school_city,country=school_country)
+						p1=Location.objects.only('city').get(city=school_city,country=school_country)
+					#Creates the school if not already present
+					try:
+						p4=School.objects.only('school_name').get(school_name=school_name,city=school_city)
+					except ObjectDoesNotExist:
+						c4=School.objects.create(school_name=school_name,city=p1)
+						p4=School.objects.only('school_name').get(school_name=school_name,city=school_city)
+					
+					studied = Studied.objects.create(roll_no=Alumnus.objects.only('roll_no').get(roll_no=roll_no), school_name=p4,programme=school_programme, grad_year=school_grad)			
+				
+
+				#Creates the city in which the company is located if it is not already present
+				if company_city and company_country and company_name:
+					try:
+						p2=Location.objects.only('city').get(city=company_city,country=company_country)
+					except ObjectDoesNotExist:
+						c2=Location.objects.create(city=company_city,country=company_country)
+						p2=Location.objects.only('city').get(city=company_city,country=company_country)
+					
+					#Checks if the unique company+city entry is already present
+					try:
+						p3=Company.objects.only('name').get(name=company_name,city=company_city)
+					except ObjectDoesNotExist:
+						c3=Company.objects.create(name=company_name,city=p2)
+						job = Job.objects.create(roll_no=Alumnus.objects.only('roll_no').get(roll_no=roll_no), company_id=Company.objects.only('id').get(name=company_name,city=company_city),field=job_field, position=job_position)
+
+				majors = Alumnus_majors.objects.filter(roll_no=roll_no)
+				alumni = Alumnus.objects.get(pk=roll_no)
+				jobs = Job.objects.filter(roll_no=roll_no)
+				lj=[]
+				for obj in jobs:
+					lj.append(obj.company_id)
+				lj1=[]
+				for obj in lj:
+					lj1.append(obj.pk)
+				company = Company.objects.filter(pk__in=lj1)
+				studied_list = Studied.objects.filter(roll_no=roll_no)
+				ls=[]
+				for obj in studied_list:
+					ls.append(obj.school_name)
+				school = School.objects.filter(school_name__in=ls)
+				#print Alumnus.objects.only('email_id')
+				context = {"alumnus" : alumni, "majors" : majors,"jobs" : jobs , "company" : company , 'school' : school, 'studied_list' : studied_list}
+				return render(request,'alumni_tracker/display_self_profile.html',context)
+
 
 	except ObjectDoesNotExist:
 		if present_country and city:
 			try:
 				p=Location.objects.only('city').get(city=city,country=present_country)
 			except ObjectDoesNotExist:
+
 				c=Location.objects.create(city=city,country=present_country)#Creates the present location if it is not already present
 				p=Location.objects.only('city').get(city=city,country=present_country)
+
 		#q = Alumnus(alumni_name=name, roll_no=roll_no, present_city=Location.objects.get(pk=city).city, email_id=email_id, grad_year=grad_year, cgpa=cgpa)
 		#q.save()
 		#Creates the city in which the school is located if it is not already present
-		q=Alumnus.objects.create(alumni_name=name, roll_no=roll_no, present_city=p, email_id=email_id, grad_year=grad_year, cgpa=cgpa ,dept_code= Department.objects.only('dept_code').get(dept_code=dept_code),linkedin=linkedin,github=github)
+		q=Alumnus.objects.create(alumni_name=name, roll_no=roll_no, present_city=Location.objects.only('city').get(city=city,country=present_country), email_id=email_id, grad_year=grad_year, cgpa=cgpa ,dept_code= Department.objects.only('dept_code').get(dept_code=dept_code),linkedin=linkedin,github=github)
 		if school_city and school_country and school_name:	
-			try:
-				p1=Location.objects.only('city').get(city=school_city,country=school_country)
-			except ObjectDoesNotExist:
-				c1=Location.objects.create(city=school_city,country=school_country)
-				p1=Location.objects.only('city').get(city=school_city,country=school_country)
-			try:
-				p4=School.objects.only('school_name').get(school_name=school_name,city=school_city)
-			except ObjectDoesNotExist:
-				c4=School.objects.create(school_name=school_name,city=p1)
-			studied = Studied.objects.create(roll_no=Alumnus.objects.only('roll_no').get(roll_no=roll_no), school_name=School.objects.only('school_name').get(school_name=school_name),programme=school_programme, grad_year=school_grad)			
-		#Creates the city in which the company is located if it is not already present
+			majors = Alumnus_majors.objects.filter(roll_no=roll_no)
+			alumni = Alumnus.objects.get(pk=q.roll_no)
+			jobs = Job.objects.filter(roll_no=roll_no)
+			company = Company.objects.filter(name=company_name,city=company_city)
+			studied_list = Studied.objects.filter(roll_no=roll_no)
+			ls=[]
+			for obj in studied_list:
+				ls.append(obj.school_name)
+			school = School.objects.filter(school_name__in=ls)
+			#print Alumnus.objects.only('email_id')
+			context = {"alumnus" : alumni, "majors" : majors,"jobs" : jobs , "company" : company , 'school' : school, 'studied_list' : studied_list}
+			return render(request,'alumni_tracker/display_self_profile.html',context)
+
+			#Creates the city in which the company is located if it is not already present
 		if company_city and company_country and company_name:	
 			try:
 				p2=Location.objects.only('city').get(city=company_city,country=company_country)
@@ -341,7 +400,7 @@ def login_user(request):
 				return render(request,'alumni_tracker/display_self_profile.html',context)"""
 def updateprofile_new(request,pk):
 	form = UpdateProfileForm(request.POST or None)
-	alumnus = Alumnus.objects.get(roll_no = request.user)
+	alumnus = Alumnus.objects.get(roll_no = pk)
 	if form.is_valid() and request.method== "POST":
 		
 		roll_no = request.POST["roll_no"]
@@ -357,7 +416,7 @@ def updateprofile_new(request,pk):
 		
 		alumnus.save()
 		
-		alumnus = Alumnus.objects.get(roll_no=request.user)
+		alumnus = Alumnus.objects.get(roll_no=pk)
 		dept = Department.objects.get(dept_code=alumnus.dept_code)
 		job = Job.objects.filter(roll_no=alumnus.roll_no)
 		studied = Studied.objects.filter(roll_no=alumnus.roll_no)
@@ -431,13 +490,18 @@ def add_schools_success(request,pk):
 
 
 	context = {'alumnus':alumnus}
-	return render(request, 'alumni_tracker/add_schools_success.html', {})
+	return render(request, 'alumni_tracker/add_schools_success.html',context)
 
 
 def createschool(request,pk):
 	alumnus = Alumnus.objects.get(roll_no=pk)
 	context = {'alumnus':alumnus}
 	return render(request,'alumni_tracker/createschool.html',context)
+
+def createcompany(request,pk):
+	alumnus = Alumnus.objects.get(roll_no=pk)
+	context = {'alumnus': alumnus}
+	return render(request,'alumni_tracker/createcompany.html',context)
 
 def logout_user(request):
     logout(request)
@@ -452,8 +516,8 @@ def add_company_success(request,pk):
 	company_city = request.GET.get("company_city")
 	company_country = request.GET.get("company_country")
 	company_name =  request.GET.get("company_name")
-	field = request.GET.get("field")
-	position = request.GET.get("position")
+	field = request.GET.get("job_field")
+	position = request.GET.get("job_position")
 	
 	try:
 		p=Location.objects.only('city').get(city=company_city,country=company_country)
@@ -472,10 +536,6 @@ def add_company_success(request,pk):
 
 
 	context = {'alumnus':alumnus}
-	return render(request, 'alumni_tracker/create_company_success.html', {})
+	return render(request, 'alumni_tracker/create_company_success.html', context)
 
 
-def createcompany(request,pk):
-	alumnus = Alumnus.objects.get(roll_no=pk)
-	context = {'alumnus':alumnus}
-	return render(request,'alumni_tracker/createcompany.html',context)

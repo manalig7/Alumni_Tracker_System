@@ -31,21 +31,21 @@
         <section id="banner">
                 <div class="inner">
                     <header>
-                        <h1>Create your profile here!</h1>
+                        
                     </header>
-                    <h2>Apply the filters to search for the alumni!</h2>
+                    
                     <br>
 
                      <form role="search" method="get" action="{% url 'alumni_tracker:add_company_success' alumnus.roll_no %}">
                 <div class="form-group">
                     {% csrf_token %}
 
-
-                    Company Name : <input type="text" class="form-control" name="company_name" value="{{ request.GET.school_name }}">
-                    Companu city : <input type="text" class="form-control" name="company_city" value="{{ request.GET.company_city }}">
-                   Company country : <input type="text" class="form-control" name="company_country" value="{{ request.GET.company_country }}">
-                   Field : <input type="text" class="form-control" name="field" value="{{ request.GET.field }}">
-                    Position : <input type="text" class="form-control" name="position" value="{{ request.GET.posiiton }}">
+                    Roll no. :<input type="text" class="form-control" name="roll_no" value="{{alumnus.roll_no}}" readonly="readonly">
+                    Company Name : <input type="text" class="form-control" name="company_name" value="{{ request.GET.company_name }}">
+                    Company city : <input type="text" class="form-control" name="company_city" value="{{ request.GET.company_city }}">
+                    Company country : <input type="text" class="form-control" name="company_country" value="{{ request.GET.company_country }}">
+                   Field : <input type="text" class="form-control" name="job_field" value="{{ request.GET.job_field }}">
+                    job_position : <input type="text" class="form-control" name="job_position" value="{{ request.GET.job_position }}">
                     
                     
                 </div>
