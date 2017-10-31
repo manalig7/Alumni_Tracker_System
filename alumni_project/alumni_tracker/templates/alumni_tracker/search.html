@@ -6,7 +6,7 @@
     {% load staticfiles %}
     <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="{% static 'alumni_tracker/main.css' %}">
+        
         <link rel="stylesheet" type="text/css" href="{% static 'alumni_tracker/font-awesome.min.css' %}">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'music/style.css' %}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script-->
+        <link rel="stylesheet" href="{% static 'alumni_tracker/search.css' %}">
 
     
 </head>
@@ -27,6 +28,7 @@
         </nav>
         <section id="banner">
                 <div class="inner">
+                    <center>
                     <header>
                         <h1>Welcome to the Search Page!</h1>
                     </header>
@@ -35,14 +37,14 @@
 
                      <form role="search" method="get" action="{% url 'alumni_tracker:display' %}">
                 <div class="form-group">
-                    Name : <input type="text" class="form-control" name="name" value="{{ request.GET.name }}">
-                    Graduation : <input type="text" class="form-control" name="grad_year" value="{{ request.GET.grad_year }}">
+                    <b>Name : <input type="text" class="form-control" name="name" value="{{ request.GET.name }}">
+                    Graduation Year: <input type="text" class="form-control" name="grad_year" value="{{ request.GET.grad_year }}">
                     Present City : <input type="text" class="form-control" name="present_city" value="{{ request.GET.present_city }}">
-                    Department Code : <input type="text" class="form-control" name="dept_code" value="{{ request.GET.dept_code }}">
+                    Department Code : <input type="text" class="form-control" name="dept_code" value="{{ request.GET.dept_code }}"></b>
                 </div>
                 <button type="submit" class="btn btn-default">Search</button>
             </form>
-                    
+                    </center>
                 </div>
             </section>
    

@@ -4,7 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Alumni Registration Form</title>
-  	
+  	 <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <link rel="stylesheet" type="text/css" href="{% static 'alumni_tracker/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   
   
       <link rel="stylesheet" href="{% static 'alumni_tracker/register.css' %}">
@@ -13,17 +17,25 @@
 </head>
 
 <body>
+  <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <h4><a href="{% url 'alumni_tracker:home' %}">Alumni Tracker</a></h4>
+                </div>
+            </div>
+        </nav>
 	
   <div id="login-box">
   <div class="left">
-    <h1>Registration for the Alumni</h1>
-    
+    <h1><b>Registration for the Alumni</b></h1>
+    <b>
     <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
 	{% csrf_token %}
 	{% include 'alumni_tracker/form-template.html' %}
-	
+	</b>
 	<div>
 		<button type="submit" class="btn btn-success">Register</button>
+
 	</div>
 </form>
   </div>
