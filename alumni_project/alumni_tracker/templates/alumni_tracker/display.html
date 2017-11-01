@@ -11,46 +11,86 @@
   	
   
   
-      <link rel="stylesheet" href="{% static 'alumni_tracker/alumnus.css' %}">
+      <!--<link rel="stylesheet" href="{% static 'alumni_tracker/alumnus.css' %}">-->
+      <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <link rel="stylesheet" type="text/css" href="{% static 'alumni_tracker/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'alumni_tracker/display.css' %}">
+
 
   
 </head>
 
 <body>
-	
-  <div id="login-box">
-  	<div class="top">
-  	</div>
-  <div class="left">
-  	<div  id="alumni_list">
-    <h1>Display Results</h1>
+  <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <h4><a href="{% url 'alumni_tracker:home' %}">Alumni Tracker </a></h4>
+                </div>
+                
+            </div>
+        </nav>
+	<!-- <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header"><p style="font-size: 0.01px">
+                    <h4 style="color:#165080"><a href="{% url 'alumni_tracker:home' %}">Alumni Tracker</a></h4></p>
+
+                </div>
+            </div>
+        </nav>-->
+        <div class="textdiv">
+
+        <section id="banner">
+        <div class="inner">
+          <header>
+            <h1>Display Results</h1>
+          </header>
+          
+          <br>
+
+          <div class="flex ">
+
+              <div>
+              <!--span class="icon fa-car"></span-->
+             <p style="font-size:25px">
+        {% for alumni in alumni_list %}
+              <a  id="alumnus_name" href="{% url 'alumni_tracker:details'   alumni.roll_no %}">{{alumni.alumni_name}}</a><br><br>
+        {% endfor %}
+                </p>      
+            </div>
 
 
-schools
-<ul>
-  {% for sc in schools %}
-   <li> {{sc.school_name}}</li>
-  {% endfor %}
-</ul>
-studied
-<ul>
-  {% for st in studied %}
-   <li> {{st.school_name}}</li>
-  {% endfor %}
-</ul>
+          
+        </div>
+      </section>
+      
 
-<ul>
-	{% for alumni in alumni_list %}
-		<li><a  id="alumnus_name" href="{% url 'alumni_tracker:details' alumni.roll_no %}">{{alumni.alumni_name}}</a></li>
-	{% endfor %}
-</ul>
     
-   </div>
+
+    <!-- Scripts -->
+      <script src="assets/js/jquery.min.js"></script>
+      <script src="assets/js/skel.min.js"></script>
+      <script src="assets/js/util.js"></script>
+      <script src="assets/js/main.js"></script>
+
+        
+      
+          
+
+
+         
+
+          </center>
+        </div>
+      
+      
+
+    
+
+    <!-- Scripts -->
+   
   </div>
-  
-  
-</div>
-  
-  
 </body>
 </html>

@@ -104,14 +104,16 @@ def display(request):
 		 
 	if company_name:
 		ls=[]
-		lj=[]
-		companies=Company.objects.only('id').filter(name__icontains=company_name)
-		jobs = Job.objects.only('roll_no').filter(company_id=companies)	
+		ls1=[]
+		companies=Company.objects.only('id').filter(name__contains=company_name)
+		for obj in companies:
+			ls1.append(obj.id)
+		jobs = Job.objects.only('roll_no').filter(company_id__in=ls1)	
 		for obj in jobs:
 			ls.append(obj.roll_no.roll_no)
-		alumni_results=alumni_results.filter(roll_no__in=ls)
+		alumni_results=alumni_results.filter(roll_no__in=ls).distinct()
 	if flag==1:
-		return render(request, 'alumni_tracker/display.html', {'alumni_list': alumni_results,'schools':schools, 'studied': studied})
+		return render(request, 'alumni_tracker/display.html', {'alumni_list': alumni_results})
 	else:
 		return render(request, 'alumni_tracker/display.html', {'alumni_list': alumni_results})
 		#return Alumnus.objects.all()
