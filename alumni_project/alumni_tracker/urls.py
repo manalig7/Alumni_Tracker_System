@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'^logout/$',views.logout_user, name="logout"),
     url(r'^createcompany/(?P<pk>[0-9]+[A-Z]+[0-9]+)/$',views.createcompany,name='createcompany'),
     url(r'^add_company_success/(?P<pk>[0-9]+[A-Z]+[0-9]+)/$',views.add_company_success,name='add_company_success'),
-    
+    url(r'^add_majors_success/(?P<pk>[0-9]+[A-Z]+[0-9]+)/$',views.add_majors_success,name='add_majors_success'),
+    url(r'^createmajor/(?P<pk>[0-9]+[A-Z]+[0-9]+)/$',views.createmajor,name='createmajor')
 ]

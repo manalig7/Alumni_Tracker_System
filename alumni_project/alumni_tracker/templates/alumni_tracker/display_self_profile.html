@@ -80,6 +80,7 @@
         <a href='../updatealumnus/{{alumnus.roll_no}}'>Update Profile</a>
         Want to update your <a href="{% url 'alumni_tracker:createschool' alumnus.roll_no %}">school details</a> and <a href="{% url 'alumni_tracker:createcompany' alumnus.roll_no %}">company details</a> too? 
         <br>
+        <a href="{% url 'alumni_tracker:createmajor' alumnus.roll_no %}"> Add more majors</a>
         <div><a href="{% url 'alumni_tracker:logout' %}">Logout</a></div>
     </div>
 </div>

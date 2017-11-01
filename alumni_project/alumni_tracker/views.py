@@ -20,14 +20,26 @@ class DetailView(generic.DetailView):
 	context_object_name = 'alumnus'
 
 def details(request,pk):
-	alumnus = Alumnus.objects.get(roll_no=pk)
-	department = Department.objects.get(dept_code=alumnus.dept_code)
-	job = Job.objects.filter(roll_no=pk)
-	school=Studied.objects.filter(roll_no=pk)
-	majors=Alumnus_majors.objects.filter(roll_no=pk)
-	#for jobs in job:
-	#	company = Company.objects.filter(id=jobs.company_id)
-	context = {'alumnus':alumnus,'department':department,'job':job,'school':school,'majors':majors}
+	majors = Alumnus_majors.objects.filter(roll_no=pk)
+	alumni = Alumnus.objects.get(roll_no=pk)
+	jobs = Job.objects.filter(roll_no=pk)
+	lj=[]
+	for obj in jobs:
+		lj.append(obj.company_id)
+	lj1=[]
+	for obj in lj:
+		lj1.append(obj.pk)
+	company = Company.objects.filter(pk__in=lj1)
+	studied_list = Studied.objects.filter(roll_no=pk)
+	ls=[]
+	for obj in studied_list:
+		ls.append(obj.school_name)
+	school = School.objects.filter(school_name__in=ls)
+	#print Alumnus.objects.only('email_id')
+	context = {"alumnus" : alumni, "majors" : majors,"jobs" : jobs , "company" : company , 'school' : school, 'studied_list' : studied_list}
+	"""return render(request,'alumni_tracker/display_self_profile.html',context)
+
+	context = {'alumnus':alumnus,'department':department,'job':job,'school':school,'majors':majors}"""
 	return render(request,'alumni_tracker/details.html',context)
 
 class IndexView(generic.ListView):
@@ -52,40 +64,54 @@ class IndexView(generic.ListView):
 			).distinct()
 
 		return render(self, 'alumni_tracker/display.html', {'alumni': alumni})
-		#else:
-		#return render(self, 'alumni_tracker/display.html', {'alumni_list': alumni})
-		#return Alumnus.objects.all()
-
+		
 def display(request):
 	alumni_results = Alumnus.objects.all()
-	query = request.GET.get("name")
-	query1= request.GET.get("grad_year")
-	query2= request.GET.get("present_city")
-	query3= request.GET.get("dept_code")
+	name = request.GET.get("name")
+	grad_year= request.GET.get("grad_year")
+	present_city= request.GET.get("present_city")
+	dept_code= request.GET.get("dept_code")
+	school_name= request.GET.get("school_name")
+	company_name= request.GET.get("company_name")
+
 	flag=1
-	if query:
+	if name:
 		alumni_results = alumni_results.filter(
-			Q(alumni_name__icontains=query) 
+			Q(alumni_name__icontains=name) 
 		).distinct()
-	if query1:
+	if grad_year:
 		alumni_results = alumni_results.filter(
-		Q(grad_year__exact=query1) 
+		Q(grad_year__exact=grad_year) 
 	).distinct()
-	if query2:
+	if present_city:
 		alumni_results = alumni_results.filter(
-		Q(present_city__city__icontains=query2) 
+		Q(present_city__city__icontains=present_city) 
 	).distinct()
-	if query3:
+	if dept_code:
 		alumni_results = alumni_results.filter(
-		Q(dept_code__dept_code__icontains=query3) 
+		Q(dept_code__dept_code__icontains=dept_code) 
 	).distinct()
-	#if query1:
-	#	alumni_results = alumni_results.filter(
-	#		Q(present_city__icontains=query1)
-	#	).distinct()
-	#	flag=1
+	if school_name:
+		ls=[]
+		ls1=[]
+		schools=School.objects.only('school_name').all().filter(school_name__contains=school_name)
+		for obj in schools:
+			ls1.append(obj.school_name)
+		studied = Studied.objects.only('roll_no').all().filter(school_name__in=ls1)
+		for obj in studied:
+			ls.append(obj.roll_no.roll_no)
+		alumni_results=alumni_results.filter(roll_no__in=ls).distinct()
+		 
+	if company_name:
+		ls=[]
+		lj=[]
+		companies=Company.objects.only('id').filter(name__icontains=company_name)
+		jobs = Job.objects.only('roll_no').filter(company_id=companies)	
+		for obj in jobs:
+			ls.append(obj.roll_no.roll_no)
+		alumni_results=alumni_results.filter(roll_no__in=ls)
 	if flag==1:
-		return render(request, 'alumni_tracker/display.html', {'alumni_list': alumni_results})
+		return render(request, 'alumni_tracker/display.html', {'alumni_list': alumni_results,'schools':schools, 'studied': studied})
 	else:
 		return render(request, 'alumni_tracker/display.html', {'alumni_list': alumni_results})
 		#return Alumnus.objects.all()
@@ -492,11 +518,28 @@ def add_schools_success(request,pk):
 	context = {'alumnus':alumnus}
 	return render(request, 'alumni_tracker/add_schools_success.html',context)
 
+def add_majors_success(request,pk):
+
+	alumnus = Alumnus.objects.get(roll_no=pk)
+	roll_no = request.GET.get("roll_no")
+	major = request.GET.get("major")
+	
+	c = Alumnus_majors.objects.create(roll_no=Alumnus.objects.only('roll_no').get(roll_no=pk),major=major)
+	
+	context = {'alumnus':alumnus}
+	return render(request, 'alumni_tracker/add_majors_success.html',context)
+
 
 def createschool(request,pk):
 	alumnus = Alumnus.objects.get(roll_no=pk)
 	context = {'alumnus':alumnus}
 	return render(request,'alumni_tracker/createschool.html',context)
+
+def createmajor(request,pk):
+	alumnus = Alumnus.objects.get(roll_no=pk)
+	context = {'alumnus':alumnus}
+	return render(request,'alumni_tracker/createmajor.html',context)
+
 
 def createcompany(request,pk):
 	alumnus = Alumnus.objects.get(roll_no=pk)

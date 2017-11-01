@@ -25,6 +25,20 @@
   	<div  id="alumni_list">
     <h1>Display Results</h1>
 
+
+schools
+<ul>
+  {% for sc in schools %}
+   <li> {{sc.school_name}}</li>
+  {% endfor %}
+</ul>
+studied
+<ul>
+  {% for st in studied %}
+   <li> {{st.school_name}}</li>
+  {% endfor %}
+</ul>
+
 <ul>
 	{% for alumni in alumni_list %}
 		<li><a  id="alumnus_name" href="{% url 'alumni_tracker:details' alumni.roll_no %}">{{alumni.alumni_name}}</a></li>

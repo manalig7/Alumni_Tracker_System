@@ -30,9 +30,50 @@
                     <div class="desc">{{alumnus.email_id}}</div>
                     <div class="desc">{{alumnus.present_city}}</div>
                     <div class="desc">{{alumnus.grad_year}}</div>
-                    <div class="desc">{{job.company_id}}</div>
-                    <div class="desc">{{job.field}}</div>
-                    <div class="desc">{{job.position}}</div>
+
+                    <br>
+                 <br>Majors <br>
+                {% for majors in majors %}
+                <li>{{majors.major}}</li>
+                {% endfor %}
+
+                
+ <br> <br>Schools
+
+                {% if school %}
+                {% for sc in school %}
+                <li>{{sc.school_name}}, {{sc.city}} </li>
+                {% endfor %}
+                {% endif %}
+ <br> <br>
+                Studied <br>
+                
+                {% if studied_list %}
+                {% for st in studied_list %}
+                <li>{{st.programme}}, {{st.grad_year}} </li>
+                {% endfor %}
+                {% endif %}
+                
+ <br> <br>Company <br>
+                {% if company %}
+                {% for company in company %}
+                <li>{{company.name}}, {{company.city}}</li>
+                {% endfor %}
+                {% endif %}
+                 <br> <br>
+                <div> JOBS
+                {% for j in jobs %}
+                <p>
+                </p>
+                <li>{{j.field}} , {{j.position}}</li>
+                {% endfor %}
+            </div>
+ <br> <br>
+
+                <div class="desc"><a href="{{alumnus.github}}">{{alumnus.github}}</a></div>
+                <div class="desc"><a href="{{alumnus.linkedin}}">{{alumnus.linkedin}}</a></div>
+            </div>
+        </div> <br> <br>
                 </div>
                 
 
