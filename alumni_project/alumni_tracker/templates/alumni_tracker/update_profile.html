@@ -12,7 +12,7 @@
         
         <link rel="stylesheet" type="text/css" href="{% static 'alumni_tracker/font-awesome.min.css' %}">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-        <link rel="stylesheet" href="{% static 'alumni_tracker/school.css' %}">
+        <link rel="stylesheet" href="{% static 'alumni_tracker/profile.css' %}">
     <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="{% static 'music/style.css' %}"/>
@@ -32,20 +32,20 @@
         <section id="banner">
                 <div class="inner">
                     <header>
-                      <h1 style="color : #f7e333">Add a school where you have pursued higher studies</h1>  
+                      <h1 style="color : #070707">Update Your Profile</h1>  
 
                      <form role="search" method="get" action="{% url 'alumni_tracker:update_profile_success' alumnus.roll_no %}">
                 <div class="form-group">
                     {% csrf_token %}
-
-                    Roll no. :<input type="text" class="form-control" name="roll_no" value="{{alumnus.roll_no}}" readonly="readonly">
+<b>
+                    Roll Number :<input type="text" class="form-control" name="roll_no" value="{{alumnus.roll_no}}" readonly="readonly">
                     Name : <input type="text" class="form-control" name="name" value="{{ request.GET.name }}">
                     Present City : <input type="text" class="form-control" name="present_city" value="{{ request.GET.present_city }}">
                     Present Country : <input type="text" class="form-control" name="present_country" value="{{ request.GET.present_country }}">
                     Email ID : <input type="text" class="form-control" name="email_id" value="{{ request.GET.email_id }}">
                    Github Link : <input type="text" class="form-control" name="github" value="{{ request.GET.github }}">
                     Linkedin link : <input type="text" class="form-control" name="linkedin" value="{{ request.GET.linkedin }}">
-                    
+  </b>                  
                     
                 </div>
                 <button type="submit" class="btn btn-default">Update</button>

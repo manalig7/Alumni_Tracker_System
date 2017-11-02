@@ -9,15 +9,10 @@
     {% load staticfiles %}
     <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="{% static 'alumni_tracker/main.css' %}">
+
         <link rel="stylesheet" type="text/css" href="{% static 'alumni_tracker/font-awesome.min.css' %}">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="{% static 'music/style.css' %}"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script-->
-
+        <link rel="stylesheet" href="{% static 'alumni_tracker/major.css' %}">
     
 </head>
 <body>
@@ -35,21 +30,32 @@
         </nav>
         <section id="banner">
                 <div class="inner">
+                    <center>
                     <header>
-                        
+                         <h1 style="color:#070707">Add a Major!</h1> 
+                     </header>   
 
                      <form role="search" method="get" action="{% url 'alumni_tracker:add_majors_success' alumnus.roll_no %}">
                 <div class="form-group">
                     {% csrf_token %}
-
-                    Roll no. :<input type="text" class="form-control" name="roll_no" value="{{alumnus.roll_no}}" readonly="readonly">
+<b>
+                    Roll Number :<input type="text" class="form-control" name="roll_no" value="{{alumnus.roll_no}}" readonly="readonly">
                     New Major : <input type="text" class="form-control" name="major" value="{{ request.GET.major }}">
-                    
+   </b>                 
                     
                 </div>
                 <button type="submit" class="btn btn-default">ADD</button>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
             </form>
-                    
+                  </center>  
                 </div>
             </section>
    
