@@ -9,9 +9,10 @@
     {% load staticfiles %}
     <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="{% static 'alumni_tracker/main.css' %}">
+        
         <link rel="stylesheet" type="text/css" href="{% static 'alumni_tracker/font-awesome.min.css' %}">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{% static 'alumni_tracker/school.css' %}">
     <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="{% static 'music/style.css' %}"/>
@@ -26,12 +27,17 @@
                 <div class="navbar-header">
                     <h4><a href="{% url 'alumni_tracker:home' %}">Alumni Tracker</a></h4>
                 </div>
+                
+                <div class="navbar-header" style="float: right; padding-left : 10px">
+                    <h4><a href="{% url 'alumni_tracker:logout' %}">Logout</a></h4>
+                </div>
+                
             </div>
         </nav>
         <section id="banner">
                 <div class="inner">
                     <header>
-                        
+                      <h1 style="color : #f7e333">Add a school where you have pursued higher studies</h1>  
 
                      <form role="search" method="get" action="{% url 'alumni_tracker:add_schools_success' alumnus.roll_no %}">
                 <div class="form-group">

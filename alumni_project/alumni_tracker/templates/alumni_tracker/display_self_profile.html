@@ -1,5 +1,137 @@
 {% load staticfiles %}
 
+
+<html>
+<title>Alumni Tracker|{{alumnus.alumni_name}}</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <link rel="stylesheet" type="text/css" href="{% static 'alumni_tracker/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+</style>
+<body class="w3-light-grey">
+<nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <h4><a href="{% url 'alumni_tracker:home' %}">Alumni Tracker</a></h4>
+                </div>
+                <div class="navbar-header" style="float: right; padding-left : 10px">
+                    <h4><a href="{% url 'alumni_tracker:search' %}">Search</a></h4>
+                </div>
+                <div class="navbar-header" style="float: right; padding-left : 10px">
+                    <h4><a href="{% url 'alumni_tracker:logout' %}">Logout</a></h4>
+                </div>
+                <div class="navbar-header" style="float: right; padding-left : 10px">
+                    <h4><a href="{% url 'alumni_tracker:registration' %}">Register</a></h4>
+                </div>
+            </div>
+        </nav>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <h4><a href="{% url 'alumni_tracker:updatealumnus' alumnus.roll_no %}">Update Profile</a></h4>
+                </div>
+                <div class="navbar-header" style="float: right; padding-left : 10px">
+                    <h4><a href="{% url 'alumni_tracker:createschool' alumnus.roll_no %}">Add School</a></h4>
+                </div>
+                <div class="navbar-header" style="float: right; padding-left : 10px">
+                    <h4><a href="{% url 'alumni_tracker:createcompany' alumnus.roll_no %}">Add Company</a></h4>
+                </div>
+                <div class="navbar-header" style="float: right; padding-left : 10px">
+                    <h4><a href="{% url 'alumni_tracker:createmajor' alumnus.roll_no %}">Add Major</a></h4>
+                </div>
+            </div>
+        </nav>
+<!-- Page Container -->
+<div class="w3-content w3-margin-top" style="max-width:1400px;">
+
+  <!-- The Grid -->
+  <div class="w3-row-padding">
+  
+    <!-- Left Column -->
+    <div class="w3-third">
+    
+      <div class="w3-white w3-text-grey w3-card-4">
+        <!--<div class="w3-display-container">
+          <img src="url("images/profilepic.png) style="width:100%" alt="Avatar">
+          <div class="w3-display-bottomleft w3-container w3-text-black">
+            <h2>{{alumnus.alumni_name}}</h2>
+          </div>
+        </div>-->
+        <center><h2>{{alumnus.alumni_name}}</h2></center>
+        <center><h4>{{alumnus.roll_no}}</h4></center>
+        <div class="w3-container">
+          <p><i class="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal"></i>{{alumnus.present_city}}</p>
+          <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>{{alumnus.email_id}}</p>
+          <p><i class="fa fa-university fa-fw w3-margin-right w3-large w3-text-teal"></i>Graduation Year - {{alumnus.grad_year}}</p>
+          <p><i class="fa fa-book fa-fw w3-margin-right w3-large w3-text-teal"></i>CGPA - {{alumnus.cgpa}}</p>
+          <p><i class="fa fa-linkedin-square fa-fw w3-margin-right w3-large w3-text-teal"></i><a href="{{alumnus.linkedin}}">{{alumnus.linkedin}}</a></p>
+          <p><i class="fa fa-github fa-fw w3-margin-right w3-large w3-text-teal"></i><a href="{{alumnus.github}}" target="__blank">{{alumnus.github}}</a></p>
+          <hr>
+
+          <p class="w3-large"><b><i class="fa fa-asterisk fa-fw w3-margin-right w3-text-teal"></i>Majors</b></p>
+          {% for m in majors %}
+          <p><i class="fa fa-angle-right fa-fw w3-margin-right w3-large w3-text-teal"></i>{{m.major}}</p>
+          {% endfor %}
+          <br>
+
+          <br>
+        </div>
+      </div><br>
+
+    <!-- End Left Column -->
+    </div>
+
+    <!-- Right Column -->
+    
+    <div class="w3-twothird">
+    {% if work %}
+      <div class="w3-container w3-card w3-white w3-margin-bottom">
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Work Experience</h2>
+        {% for fields,positions,companies,company_cities in work %}
+        <div class="w3-container">
+          <h5 class="w3-opacity"><b>{{companies}}, {{company_cities}} </b></h5>
+          <h6 class="w3-opacity"><b>{{fields}} / {{positions}}</b></h6>
+          
+          <hr>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% if edu %}
+      <div class="w3-container w3-card w3-white">
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Education</h2>
+        
+        {% for schools,grad_years,programmes,school_cities in edu %}
+        <div class="w3-container">
+          <h5 class="w3-opacity"><b>{{schools}} , {{school_cities}}</b></h5>
+          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Graduation Year - {{grad_years}}</h6>
+          <p>{{programmes}}</p>
+          <hr>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+    <!-- End Right Column -->
+    </div>
+    
+  <!-- End Grid -->
+  </div>
+  
+  <!-- End Page Container -->
+</div>
+
+
+
+</body>
+</html>
 <head>
   <title>Alumni Tracker</title>
   <meta charset="utf-8" />
@@ -9,80 +141,3 @@
   <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"-->
 
 </head>
-<body>	
-    <div class="container">
-     <div class="row">
-      <div class="col-lg-3 col-sm-6">
-
-        <div class="card hovercard">
-            <div class="cardheader">
-
-            </div>
-            <div class="avatar">
-                <img src="images/alumnus.png">
-            </div>
-            <div class="info">
-                <div class="title">
-                    Congrats ! profile created
-
-                    Personal Details :
-                    <h1 target="_blank" href="">{{alumnus.alumni_name}}</h1>
-                </div>
-                <div class="desc">{{alumnus.roll_no}}</div>
-                <div class="desc">{{alumnus.cgpa}}</div>
-                <div class="desc">{{alumnus.email_id}}</div>
-                <div class="desc">{{alumnus.present_city}}</div>
-                <div class="desc">{{alumnus.grad_year}}</div>
-                
-                 <br>
-                 <br>Majors <br>
-                {% for majors in majors %}
-                <li>{{majors.major}}</li>
-                {% endfor %}
-
-                
- <br> <br>Schools
-
-                {% if school %}
-                {% for sc in school %}
-                <li>{{sc.school_name}}, {{sc.city}} </li>
-                {% endfor %}
-                {% endif %}
- <br> <br>
-                Studied <br>
-                
-                {% if studied_list %}
-                {% for st in studied_list %}
-                <li>{{st.programme}}, {{st.grad_year}} </li>
-                {% endfor %}
-                {% endif %}
-                
- <br> <br>Company <br>
-                {% if company %}
-                {% for company in company %}
-                <li>{{company.name}}, {{company.city}}</li>
-                {% endfor %}
-                {% endif %}
-                 <br> <br>
-                <div> JOBS
-                {% for j in jobs %}
-                <p>
-                </p>
-                <li>{{j.field}} , {{j.position}}</li>
-                {% endfor %}
-            </div>
- <br> <br>
-
-                <div class="desc"><a href="{{alumnus.github}}">{{alumnus.github}}</a></div>
-                <div class="desc"><a href="{{alumnus.linkedin}}">{{alumnus.linkedin}}</a></div>
-            </div>
-        </div> <br> <br>
-        <a href='../updatealumnus/{{alumnus.roll_no}}'>Update Profile</a>
-        Want to update your <a href="{% url 'alumni_tracker:createschool' alumnus.roll_no %}">school details</a> and <a href="{% url 'alumni_tracker:createcompany' alumnus.roll_no %}">company details</a> too? 
-        <br>
-        <a href="{% url 'alumni_tracker:createmajor' alumnus.roll_no %}"> Add more majors</a>
-        <div><a href="{% url 'alumni_tracker:logout' %}">Logout</a></div>
-    </div>
-</div>
-</div>
-</body>

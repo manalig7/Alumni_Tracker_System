@@ -1,17 +1,36 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html>
-<title>W3.CSS Template</title>
+<title>Alumni Tracker|{{alumnus.alumni_name}}</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <link rel="stylesheet" type="text/css" href="{% static 'alumni_tracker/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <style>
 html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 </style>
 <body class="w3-light-grey">
-
+<nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <h4><a href="{% url 'alumni_tracker:home' %}">Alumni Tracker</a></h4>
+                </div>
+                <div class="navbar-header" style="float: right; padding-left : 10px">
+                    <h4><a href="{% url 'alumni_tracker:search' %}">Search</a></h4>
+                </div>
+                <div class="navbar-header" style="float: right; padding-left : 10px">
+                    <h4><a href="{% url 'alumni_tracker:login' %}">Login</a></h4>
+                </div>
+                <div class="navbar-header" style="float: right; padding-left : 10px">
+                    <h4><a href="{% url 'alumni_tracker:registration' %}">Register</a></h4>
+                </div>
+            </div>
+        </nav>
 <!-- Page Container -->
 <div class="w3-content w3-margin-top" style="max-width:1400px;">
 
@@ -29,47 +48,22 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
           </div>
         </div>-->
         <center><h2>{{alumnus.alumni_name}}</h2></center>
+        <center><h4>{{alumnus.roll_no}}</h4></center>
         <div class="w3-container">
-          <p><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i>Designer</p>
-          <p><i class="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal"></i>London, UK</p>
-          <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>ex@mail.com</p>
-          <p><i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i>1224435534</p>
+          <p><i class="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal"></i>{{alumnus.present_city}}</p>
+          <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>{{alumnus.email_id}}</p>
+          <p><i class="fa fa-university fa-fw w3-margin-right w3-large w3-text-teal"></i>Graduation Year - {{alumnus.grad_year}}</p>
+          <p><i class="fa fa-book fa-fw w3-margin-right w3-large w3-text-teal"></i>CGPA - {{alumnus.cgpa}}</p>
+          <p><i class="fa fa-linkedin-square fa-fw w3-margin-right w3-large w3-text-teal"></i><a href="{{alumnus.linkedin}}">{{alumnus.linkedin}}</a></p>
+          <p><i class="fa fa-github fa-fw w3-margin-right w3-large w3-text-teal"></i><a href="{{alumnus.linkedin}}">{{alumnus.github}}</a></p>
           <hr>
 
-          <p class="w3-large"><b><i class="fa fa-asterisk fa-fw w3-margin-right w3-text-teal"></i>Skills</b></p>
-          <p>Adobe Photoshop</p>
-          <div class="w3-light-grey w3-round-xlarge w3-small">
-            <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:90%">90%</div>
-          </div>
-          <p>Photography</p>
-          <div class="w3-light-grey w3-round-xlarge w3-small">
-            <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:80%">
-              <div class="w3-center w3-text-white">80%</div>
-            </div>
-          </div>
-          <p>Illustrator</p>
-          <div class="w3-light-grey w3-round-xlarge w3-small">
-            <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:75%">75%</div>
-          </div>
-          <p>Media</p>
-          <div class="w3-light-grey w3-round-xlarge w3-small">
-            <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:50%">50%</div>
-          </div>
+          <p class="w3-large"><b><i class="fa fa-asterisk fa-fw w3-margin-right w3-text-teal"></i>Majors</b></p>
+          {% for m in majors %}
+          <p><i class="fa fa-angle-right fa-fw w3-margin-right w3-large w3-text-teal"></i>{{m.major}}</p>
+          {% endfor %}
           <br>
 
-          <!--<p class="w3-large w3-text-theme"><b><i class="fa fa-globe fa-fw w3-margin-right w3-text-teal"></i>Languages</b></p>
-          <p>English</p>
-          <div class="w3-light-grey w3-round-xlarge">
-            <div class="w3-round-xlarge w3-teal" style="height:24px;width:100%"></div>
-          </div>
-          <p>Spanish</p>
-          <div class="w3-light-grey w3-round-xlarge">
-            <div class="w3-round-xlarge w3-teal" style="height:24px;width:55%"></div>
-          </div>
-          <p>German</p>
-          <div class="w3-light-grey w3-round-xlarge">
-            <div class="w3-round-xlarge w3-teal" style="height:24px;width:25%"></div>
-          </div>-->
           <br>
         </div>
       </div><br>
@@ -82,44 +76,26 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     
       <div class="w3-container w3-card w3-white w3-margin-bottom">
         <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Work Experience</h2>
+        {% for fields,positions,companies,company_cities in work %}
         <div class="w3-container">
-          <h5 class="w3-opacity"><b>Front End Developer / w3schools.com</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Jan 2015 - <span class="w3-tag w3-teal w3-round">Current</span></h6>
-          <p>Lorem ipsum dolor sit amet. Praesentium magnam consectetur vel in deserunt aspernatur est reprehenderit sunt hic. Nulla tempora soluta ea et odio, unde doloremque repellendus iure, iste.</p>
+          <h5 class="w3-opacity"><b>{{companies}}, {{company_cities}} </b></h5>
+          <h6 class="w3-opacity"><b>{{fields}} / {{positions}}</b></h6>
+          
           <hr>
         </div>
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>Web Developer / something.com</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Mar 2012 - Dec 2014</h6>
-          <p>Consectetur adipisicing elit. Praesentium magnam consectetur vel in deserunt aspernatur est reprehenderit sunt hic. Nulla tempora soluta ea et odio, unde doloremque repellendus iure, iste.</p>
-          <hr>
-        </div>
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>Graphic Designer / designsomething.com</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Jun 2010 - Mar 2012</h6>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. </p><br>
-        </div>
+        {% endfor %}
       </div>
 
       <div class="w3-container w3-card w3-white">
         <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Education</h2>
+        {% for schools,grad_years,programmes,school_cities in edu %}
         <div class="w3-container">
-          <h5 class="w3-opacity"><b>W3Schools.com</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Forever</h6>
-          <p>Web Development! All I need to know in one place</p>
+          <h5 class="w3-opacity"><b>{{schools}} , {{school_cities}}</b></h5>
+          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Graduation Year - {{grad_years}}</h6>
+          <p>{{programmes}}</p>
           <hr>
         </div>
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>London Business School</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>2013 - 2015</h6>
-          <p>Master Degree</p>
-          <hr>
-        </div>
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>School of Coding</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>2010 - 2013</h6>
-          <p>Bachelor Degree</p><br>
-        </div>
+        {% endfor %}
       </div>
 
     <!-- End Right Column -->
@@ -135,89 +111,3 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 
 </body>
 </html>
-
-<head>
-		<title>Alumni Tracker</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="{% static 'alumni_tracker/details.css' %}">
-		<link rel="stylesheet" type="text/css" href="{% static 'alumni_tracker/font-awesome.min.css' %}">
-		<!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"-->
-		
-	</head>
-<body>	
-<div class="container">
-	<div class="row">
-		<div class="col-lg-3 col-sm-6">
-
-            <div class="card hovercard">
-                <div class="cardheader">
-
-                </div>
-                <div class="avatar">
-                    <img src="images/alumnus.png">
-                </div>
-                <div class="info">
-                    <div class="title">
-                        <h1 target="_blank" href="">{{alumnus.alumni_name}}</h1>
-                    </div>
-                    <div class="desc">{{alumnus.roll_no}}</div>
-                    <div class="desc">{{alumnus.cgpa}}</div>
-                    <div class="desc">{{alumnus.email_id}}</div>
-                    <div class="desc">{{alumnus.present_city}}</div>
-                    <div class="desc">{{alumnus.grad_year}}</div>
-
-                    <br>
-                 <br>Majors <br>
-                {% for majors in majors %}
-                <li>{{majors.major}}</li>
-                {% endfor %}
-
-                
- <br> <br>Schools
-
-                {% if school %}
-                {% for sc in school %}
-                <li>{{sc.school_name}}, {{sc.city}} </li>
-                {% endfor %}
-                {% endif %}
- <br> <br>
-                Studied <br>
-                
-                {% if studied_list %}
-                {% for st in studied_list %}
-                <li>{{st.programme}}, {{st.grad_year}} </li>
-                {% endfor %}
-                {% endif %}
-                
- <br> <br>Company <br>
-                {% if company %}
-                {% for company in company %}
-                <li>{{company.name}}, {{company.city}}</li>
-                {% endfor %}
-                {% endif %}
-                 <br> <br>
-                <div> JOBS
-                {% for j in jobs %}
-                <p>
-                </p>
-                <li>{{j.field}} , {{j.position}}</li>
-                {% endfor %}
-            </div>
- <br> <br>
-
-                <div class="desc"><a href="{{alumnus.github}}">{{alumnus.github}}</a></div>
-                <div class="desc"><a href="{{alumnus.linkedin}}">{{alumnus.linkedin}}</a></div>
-            </div>
-        </div> <br> <br>
-                </div>
-                
-
-
-            </div>
-
-        </div>
-
-	</div>
-</div>
-</body>

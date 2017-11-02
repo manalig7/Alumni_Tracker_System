@@ -27,19 +27,20 @@
   <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <h4><a href="{% url 'alumni_tracker:home' %}">Alumni Tracker </a></h4>
+                    <h4><a href="{% url 'alumni_tracker:home' %}">Alumni Tracker</a></h4>
                 </div>
-                
+                <div class="navbar-header" style="float: right; padding-left : 10px">
+                    <h4><a href="{% url 'alumni_tracker:search' %}">Search</a></h4>
+                </div>
+                <div class="navbar-header" style="float: right; padding-left : 10px">
+                    <h4><a href="{% url 'alumni_tracker:login' %}">Login</a></h4>
+                </div>
+                <div class="navbar-header" style="float: right; padding-left : 10px">
+                    <h4><a href="{% url 'alumni_tracker:registration' %}">Register</a></h4>
+                </div>
             </div>
         </nav>
-	<!-- <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header"><p style="font-size: 0.01px">
-                    <h4 style="color:#165080"><a href="{% url 'alumni_tracker:home' %}">Alumni Tracker</a></h4></p>
-
-                </div>
-            </div>
-        </nav>-->
+	
         <div class="textdiv">
 
         <section id="banner">

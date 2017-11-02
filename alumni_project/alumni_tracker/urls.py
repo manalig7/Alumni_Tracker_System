@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^errorpage', views.error,name='errorpage'),
     url(r'^createschool/(?P<pk>[0-9]+[A-Z]+[0-9]+)/$',views.createschool,name='createschool'),
     url(r'^add_schools_success/(?P<pk>[0-9]+[A-Z]+[0-9]+)/$',views.add_schools_success,name='add_schools_success'),
+    url(r'^update_profile_success/(?P<pk>[0-9]+[A-Z]+[0-9]+)/$',views.update_profile_success,name='update_profile_success'),
     url(r'^logout/$',views.logout_user, name="logout"),
     url(r'^createcompany/(?P<pk>[0-9]+[A-Z]+[0-9]+)/$',views.createcompany,name='createcompany'),
     url(r'^add_company_success/(?P<pk>[0-9]+[A-Z]+[0-9]+)/$',views.add_company_success,name='add_company_success'),

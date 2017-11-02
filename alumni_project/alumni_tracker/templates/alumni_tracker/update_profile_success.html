@@ -1,0 +1,9 @@
+<div>profile updated successfully {{alumnus.roll_no}}</div>
+
+<form role="search" method="get" action="{% url 'alumni_tracker:display_self_profile' %}">
+                <div class="form-group">
+                    {% csrf_token %}
+Roll no. :<input type="text" class="form-control" name="roll_no" value="{{ alumnus.roll_no }}" readonly="">
+</div>
+                <button type="submit" class="btn btn-default">See profile</button>
+            </form>
