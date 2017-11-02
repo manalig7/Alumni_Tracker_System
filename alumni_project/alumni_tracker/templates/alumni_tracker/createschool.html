@@ -18,7 +18,7 @@
     
 </head>
 <body>
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default"  style="margin-bottom: 0px">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <h4><a href="{% url 'alumni_tracker:home' %}">Alumni Tracker</a></h4>
@@ -37,7 +37,7 @@
                        <h1 style="color:#f7e333">Add a school where you have pursued higher studies in!</h1> 
 
                      <form role="search" method="get" action="{% url 'alumni_tracker:add_schools_success' alumnus.roll_no %}">
-                <div class="form-group">
+                <div class="form-group" style="width:50%; margin-left: 25%; background-color:#ffffff80">
                     {% csrf_token %}
                     <b>
                     Roll Number :<input type="text" class="form-control" name="roll_no" value="{{alumnus.roll_no}}" readonly="readonly">

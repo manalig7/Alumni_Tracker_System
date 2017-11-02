@@ -20,7 +20,7 @@
     
 </head>
 <body>
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default" style="margin-bottom: 0px">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <h4><a href="{% url 'alumni_tracker:home' %}">Alumni Tracker</a></h4>
@@ -43,13 +43,13 @@
                     
                     <center>
                     <header>
-                        <h1>Welcome to the Search Page!</h1>
+                        <h1 style="width: 50%;background-color:#ffffff80 ">Welcome to the Search Page!</h1>
                     </header>
-                    <h2>Apply any of the filters to search for the alumni!</h2>
+                    <h2 style="width: 50%;background-color:#ffffff80 ">Apply any of the filters to search for the alumni!</h2>
                     <br>
 
                      <form role="search" method="get" action="{% url 'alumni_tracker:display' %}">
-                <div class="form-group">
+                <div class="form-group" style="width:50%;  background-color:#ffffff80">
                     <b>Name : <input type="text" class="form-control" name="name" value="{{ request.GET.name }}">
                     Graduation Year: <input type="text" class="form-control" name="grad_year" value="{{ request.GET.grad_year }}">
                     Present City : <input type="text" class="form-control" name="present_city" value="{{ request.GET.present_city }}">

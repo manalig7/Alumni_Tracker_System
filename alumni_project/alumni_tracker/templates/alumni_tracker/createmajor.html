@@ -16,7 +16,7 @@
     
 </head>
 <body>
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default" style="margin-bottom: 0px">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <h4><a href="{% url 'alumni_tracker:home' %}">Alumni Tracker</a></h4>
@@ -36,11 +36,11 @@
                      </header>   
 
                      <form role="search" method="get" action="{% url 'alumni_tracker:add_majors_success' alumnus.roll_no %}">
-                <div class="form-group">
+                <div class="form-group" style="width:50%; ">
                     {% csrf_token %}
 <b>
-                    Roll Number :<input type="text" class="form-control" name="roll_no" value="{{alumnus.roll_no}}" readonly="readonly">
-                    New Major : <input type="text" class="form-control" name="major" value="{{ request.GET.major }}">
+                    <p style="color: white">Roll Number :<input type="text" class="form-control" name="roll_no" value="{{alumnus.roll_no}}" readonly="readonly"></p>
+                    <p style="color: white">New Major : <input type="text" class="form-control" name="major" value="{{ request.GET.major }}"></p>
    </b>                 
                     
                 </div>
