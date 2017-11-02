@@ -1,9 +1,51 @@
-<div>company added successfully {{alumnus.roll_no}}</div>
 
-<form role="search" method="get" action="{% url 'alumni_tracker:display_self_profile' %}">
-                <div class="form-group">
-                    {% csrf_token %}
-Roll no. :<input type="text" class="form-control" name="roll_no" value="{{ alumnus.roll_no }}" readonly="readonly">
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<title>Alumni Tracker|{{alumnus.alumni_name}}</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <link rel="stylesheet" type="text/css" href="{% static 'alumni_tracker/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+
+</style>
+<div class="w3-third" style="position: absolute; left: 35%">
+
+	<div class="w3-white w3-text-grey w3-card-4">
+        <!--<div class="w3-display-container">
+          <img src="url("images/profilepic.png) style="width:100%" alt="Avatar">
+          <div class="w3-display-bottomleft w3-container w3-text-black">
+            <h2>{{alumnus.alumni_name}}</h2>
+          </div>
+      </div>-->
+      <center><h2   style="padding-top: 20px; margin-top: 0px">{{alumnus.alumni_name}}</h2></center>
+      <center><h4>{{alumnus.roll_no}}</h4></center>
+      <div class="w3-container">
+      	<div style="text-align: center">Company Added Successfully For {{alumnus.roll_no}}</div>
+      	<br>
+      	<form role="search" method="get" action="{% url 'alumni_tracker:display_self_profile' %}">
+      		<div class="form-group">
+      			{% csrf_token %}
+      			<br>
+      			<br>
+      			Roll Number :<input type="text" class="form-control" name="roll_no" value="{{ alumnus.roll_no }}" readonly="">
+      			<br>
+      			<br>
+      		</div>
+      		<button type="submit" class="btn btn-default">Go To Profile</button>
+      	</form>
+      </div>
+  </div><br>
+
+  <!-- End Left Column -->
 </div>
-                <button type="submit" class="btn btn-default">See profile</button>
-            </form>
+
+
+
