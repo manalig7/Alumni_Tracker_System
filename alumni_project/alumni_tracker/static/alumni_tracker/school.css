@@ -11,13 +11,11 @@ body {
   
 }
 
-#backimage {
-  background-image: url("images/nitkentrance.jpg");
-}
+
 
 #banner {
 		padding: 8em 0 9em 0;
-		background-image: url("images/nitkentrance.jpg");
+		background-image: url("images/school.jpg");
 		background-size: cover;
 		background-position: bottom;
 		background-attachment: fixed;
