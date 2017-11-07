@@ -14,11 +14,7 @@ from django.contrib.auth import views as auth_views
 from django.core.exceptions import ObjectDoesNotExist
 
 
-class DetailView(generic.DetailView):
-	model = Alumnus
-	template_name = 'alumni_tracker/details.html'
-	context_object_name = 'alumnus'
-
+#Shows details of the alumni searched
 def details(request,pk):
 	majors = Alumnus_majors.objects.filter(roll_no=pk)
 	alumni = Alumnus.objects.get(roll_no=pk)
@@ -49,44 +45,20 @@ def details(request,pk):
 	schools = []
 	grad_years =[]
 	programmes = []
-	school_cities =[]
-
-	for obj in school:
-		schools.append(obj.school_name)
-		school_cities.append(obj.city)
+	
+	
 	for obj in studied_list:
 		programmes.append(obj.programme)
 		grad_years.append(obj.grad_year)
+		schools.append(obj.school_name)
 
 	work = zip(fields,positions,companies,company_cities)
-	edu = zip(schools,grad_years,programmes,school_cities)
+	edu = zip(schools,grad_years,programmes)
 	context = {"alumnus" : alumni, "majors" : majors,"jobs" : jobs , "company" : company , 'school' : school, 'studied_list' : studied_list, 'fields' : fields, 'positions':positions, 'companies' : companies,'work':work,'edu':edu}
 
 	return render(request,'alumni_tracker/details.html',context)
 
-class IndexView(generic.ListView):
-	template_name = 'alumni_tracker/display.html'
-	context_object_name = 'alumni_list'
-	
-	def get_queryset(self):
-		#alumni = Alumnus.objects.filter(user=self.user)
-		alumni_results = Alumnus.objects.all()
-		query = self.GET.get("name")
-		query1=self.GET.get("present_city")
-		if query:
-			alumni = alumni.filter(
-				Q(alumni_name__icontains=query)
-			).distinct()
-			alumni_results = alumni_results.filter(
-				Q(alumni_name__icontains=query)
-			).distinct()
-		if query1:
-				alumni_results = alumni_results.filter(
-				Q(present_city__icontains=query1)
-			).distinct()
-
-		return render(self, 'alumni_tracker/display.html', {'alumni': alumni})
-		
+#Displays the list of alumni satisfying the search filters
 def display(request):
 	alumni_results = Alumnus.objects.all()
 	name = request.GET.get("name")
@@ -138,8 +110,8 @@ def display(request):
 		return render(request, 'alumni_tracker/display.html', {'alumni_list': alumni_results})
 	else:
 		return render(request, 'alumni_tracker/display.html', {'alumni_list': alumni_results})
-		#return Alumnus.objects.all()
 
+#Displays your own profile if logged in
 def display_self_profile(request):
 
 	name =  request.GET.get("name")
@@ -169,7 +141,6 @@ def display_self_profile(request):
 			if city:
 				return redirect('alumni_tracker:errorpage')
 			else:
-				#p=Location.objects.only('city').get(city=Alumnus.objects.only('present_city').get(roll_no=roll_no))
 				#Creates the city in which the school is located if it is not already present
 				if school_city and school_country and school_name:
 					try:
@@ -221,16 +192,14 @@ def display_self_profile(request):
 				schools =[]
 				grad_years=[]
 				programmes=[]
-				school_cities=[]
-				for obj in school:
-					schools.append(obj.school_name)
-					school_cities.append(obj.city)
-
+				
+				
 				for obj in studied_list:
 					grad_years.append(obj.grad_year)
 					programmes.append(obj.programme)
+					schools.append(obj.school_name)
 
-				edu = zip(schools,school_cities,grad_years,programmes)
+				edu = zip(schools,grad_years,programmes)
 
 				fields = []
 				positions =[]
@@ -303,16 +272,13 @@ def display_self_profile(request):
 		schools =[]
 		grad_years=[]
 		programmes=[]
-		school_cities=[]
-		for obj in school:
-			schools.append(obj.school_name)
-			school_cities.append(obj.city)
-
+		
 		for obj in studied_list:
 			grad_years.append(obj.grad_year)
 			programmes.append(obj.programme)
+			schools.append(obj.school_name)
 
-		edu = zip(schools,school_cities,grad_years,programmes)
+		edu = zip(schools,grad_years,programmes)
 
 		fields = []
 		positions =[]
@@ -329,38 +295,29 @@ def display_self_profile(request):
 		context = {"alumnus" : alumni, "majors" : majors,"jobs" : jobs , "company" : company , 'school' : school, 'studied_list' : studied_list, 'work':work, 'edu':edu}
 		return render(request,'alumni_tracker/display_self_profile.html',context)
 
+
 def error(request):
 	context = {}
 	return render(request,'alumni_tracker/errorpage.html',context)
 
+# To update your alumnus profile
 def updatealumnus(request,pk):
 
 	def get(self,request):
 		form = self.form_class(None)
 
-class AlumnusUpdate(UpdateView):
-	model = Alumnus
-	fields = ['alumni_name','roll_no','present_city','email_id','dept_code','grad_year','cgpa']
-
-class AlumnusDelete(DeleteView):
-	model = Alumnus
-	success_url=reverse_lazy('alumni_tracker:home')
-
+# Home page
 def home(request):
 	context = {}
 	return render(request, 'alumni_tracker/home.html',context)
 
-def registration(request):
-    return HttpResponse("Hello, world. You're at the registration page")
-
-#def login(request):
- #   return HttpResponse("Hello, world. You can mnow login")
-
+# Search page
 def search(request):
 	all_alumni = Alumnus.objects.all()
 	context = {}
 	return render(request, 'alumni_tracker/search.html',context)
 
+#
 def createalumnus(request):
 	context = {}
 	return render(request,'alumni_tracker/createalumnus.html',context)
@@ -447,21 +404,14 @@ def login_user(request):
 				alumni = Alumnus.objects.get(roll_no=user)
 				roll_no = user
 				majors = Alumnus_majors.objects.filter(roll_no=alumni.roll_no)
-				
 				jobs = Job.objects.filter(roll_no=alumni.roll_no)
 				ls1=[]
 				ls2=[]
-				"""for j in jobs:
-					ls1.append(jobs.company_id)"""
 				studied_list = Studied.objects.all().filter(roll_no=alumni.roll_no)
 				ls=[]
 				for obj in studied_list:
 					ls.append(obj.school_name)
-
-				
 				school = School.objects.filter(school_name__in=ls)
-
-
 				lc=[]
 				compid_list = Job.objects.all().filter(roll_no=alumni.roll_no)
 				for obj in compid_list:
@@ -473,16 +423,13 @@ def login_user(request):
 				schools =[]
 				grad_years=[]
 				programmes=[]
-				school_cities=[]
-				for obj in school:
-					schools.append(obj.school_name)
-					school_cities.append(obj.city)
-
+				
 				for obj in studied_list:
 					grad_years.append(obj.grad_year)
 					programmes.append(obj.programme)
+					schools.append(obj.school_name)
 
-				edu = zip(schools,school_cities,grad_years,programmes)
+				edu = zip(schools,grad_years,programmes)
 
 				fields = []
 				positions =[]
@@ -509,69 +456,29 @@ def updateprofile_new(request,pk):
 	form = UpdateProfileForm(request.POST or None)
 	alumnus = Alumnus.objects.get(roll_no = pk)
 	if form.is_valid() and request.method== "POST":
-		
 		roll_no = request.POST["roll_no"]
 		present_city=request.POST["present_city"]
 		present_country=request.POST["present_country"]
 		email_id=request.POST["email_id"]
 		github=request.POST["github"]
 		linkedin=request.POST["linkedin"]
-		
 		alumnus.present_city = Location.objects.only('city').get(city=present_city)
 		alumnus.email_id=email_id
 		alumnus.linkedin=linkedin
 		alumnus.github=github
-		
 		alumnus.save()
-		
 		alumnus = Alumnus.objects.get(roll_no=pk)
 		dept = Department.objects.get(dept_code=alumnus.dept_code)
 		job = Job.objects.filter(roll_no=alumnus.roll_no)
 		studied = Studied.objects.filter(roll_no=alumnus.roll_no)
 		majors = Alumnus_majors.objects.filter(roll_no=alumnus.roll_no)
-
 		context = {'alumnus': alumnus,'dept':dept,'jobs': job ,'studied' : studied,'majors' : majors}
 		return render(request,'alumni_tracker/display_self_profile.html',context)
 	else:
-		context = {
-					'form' : form,
-					'alumnus':alumnus
-		}
+		context = {'form' : form,'alumnus':alumnus}
 		return render(request,'alumni_tracker/update_profile.html',context)
 
-"""def updateschool_new(request,pk):
-	form = UpdateProfileForm(request.POST or None)
-	alumnus = Alumnus.objects.get(roll_no = request.user)
-	if form.is_valid() and request.method== "POST":
-		
-		roll_no = request.POST["roll_no"]
-		present_city=request.POST["present_city"]
-		email_id=request.POST["email_id"]
-		github=request.POST["github"]
-		linkedin=request.POST["linkedin"]
-		
-		alumnus.present_city = Location.objects.only('city').get(city=present_city)
-		alumnus.email_id=email_id
-		alumnus.linkedin=linkedin
-		alumnus.github=github
-		
-		alumnus.save()
-		
-		alumnus = Alumnus.objects.get(roll_no=request.user)
-		dept = Department.objects.get(dept_code=alumnus.dept_code)
-		job = Job.objects.filter(roll_no=alumnus.roll_no)
-		studied = Studied.objects.filter(roll_no=alumnus.roll_no)
-		majors = Alumnus_majors.objects.filter(roll_no=alumnus.roll_no)
 
-		context = {'alumnus': alumnus,'dept':dept,'jobs': job ,'studied' : studied,'majors' : majors}
-		return render(request,'alumni_tracker/display_self_profile.html',context)
-	else:
-		context = {
-					'form' : form,
-					'alumnus':alumnus
-		}
-		return render(request,'alumni_tracker/update_profile.html',context)
-"""
 def add_schools_success(request,pk):
 
 	alumnus = Alumnus.objects.get(roll_no=pk)
@@ -616,7 +523,6 @@ def update_profile_success(request,pk):
 		except ObjectDoesNotExist:
 			c=Location.objects.create(city=present_city,country=present_country)
 			p=Location.objects.only('city').get(city=present_city,country=present_country)
-
 
 	if name:
 		alumnus.alumni_name = name
@@ -702,3 +608,29 @@ def add_company_success(request,pk):
 	return render(request, 'alumni_tracker/create_company_success.html', context)
 
 
+"""class IndexView(generic.ListView):
+	template_name = 'alumni_tracker/display.html'
+	context_object_name = 'alumni_list'
+	
+	def get_queryset(self):
+		#alumni = Alumnus.objects.filter(user=self.user)
+		alumni_results = Alumnus.objects.all()
+		query = self.GET.get("name")
+		query1=self.GET.get("present_city")
+		if query:
+			alumni = alumni.filter(
+				Q(alumni_name__icontains=query)
+			).distinct()
+			alumni_results = alumni_results.filter(
+				Q(alumni_name__icontains=query)
+			).distinct()
+		if query1:
+				alumni_results = alumni_results.filter(
+				Q(present_city__icontains=query1)
+			).distinct()
+
+		return render(self, 'alumni_tracker/display.html', {'alumni': alumni})"""	
+"""class DetailView(generic.DetailView):
+	model = Alumnus
+	template_name = 'alumni_tracker/details.html'
+	context_object_name = 'alumnus'"""

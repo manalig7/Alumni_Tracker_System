@@ -77,7 +77,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 
           <p class="w3-large"><b><i class="fa fa-asterisk fa-fw w3-margin-right w3-text-teal"></i>Majors</b></p>
           {% for m in majors %}
+          {% if m %}
           <p><i class="fa fa-angle-right fa-fw w3-margin-right w3-large w3-text-teal"></i>{{m.major}}</p>
+          {% endif %}
           {% endfor %}
           <br>
 
@@ -108,9 +110,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
       <div class="w3-container w3-card w3-white">
         <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Education</h2>
         
-        {% for schools,grad_years,programmes,school_cities in edu %}
+        {% for schools,grad_years,programmes in edu %}
         <div class="w3-container">
-          <h5 class="w3-opacity"><b>{{schools}} , {{school_cities}}</b></h5>
+          <h5 class="w3-opacity"><b>{{schools}}</b></h5>
           <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Graduation Year - {{grad_years}}</h6>
           <p>{{programmes}}</p>
           <hr>

@@ -1,6 +1,3 @@
-
-
-
 from django.db import models
 from django.core.urlresolvers import reverse
 # Create your models here.
@@ -8,6 +5,7 @@ from django.core.urlresolvers import reverse
 class Location(models.Model):
 	city = models.CharField(max_length=30,primary_key=True)
 	country = models.CharField(max_length=30)
+
 	def __str__(self):
 		return self.city
 
