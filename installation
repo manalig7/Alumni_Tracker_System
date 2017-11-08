@@ -1,0 +1,6 @@
+**Instructions for Running the Project:**
+* Clone the github link into your device.
+* Make sure Django is up and running(mostly through virtual environment)
+* Go to Alumni_Tracker_System/alumni_project
+* Run by typing python manage.py runserver
+* Go to homepage by following the link http://127.0.0.1:8000/alumni_tracker/
